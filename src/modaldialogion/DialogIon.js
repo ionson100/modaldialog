@@ -12,10 +12,6 @@ import * as ReactDOM from "react-dom";
 
     extracted(dialogData) {
          const root = document.getElementById(this._root);
-         dialogData.callback = (b) => {
-
-
-         }
          ReactDOM.unmountComponentAtNode(root);
          ReactDOM.render(<DialogIon ref={this.myRef} dialogData={dialogData}/>, root);
 
@@ -50,7 +46,6 @@ class DialogIon extends Component{
          }
          this.myRef= React.createRef();
          this.buttonModeAction=undefined;
-         this.call=props.dialogData.callback;
          this.promiseInfo = {};
 
      }
@@ -67,16 +62,7 @@ class DialogIon extends Component{
         });
     };
 
-
-     // componentDidUpdate(prevProps, prevState, snapshot) {
-     //     console.log(this.buttonModeAction)
-     //     this.call(this.buttonModeAction)
-     // }
-
-     onClick(mode){
-
-
-
+     onClick=()=>{
         this.setState({isShow:false})
          let { resolve, reject } = this.promiseInfo;
          resolve(this.buttonModeAction)
@@ -90,7 +76,10 @@ class DialogIon extends Component{
 
              <Modal ref={this.myRef}
                     show={this.state.isShow}
-                 onHide={this.onClick.bind(this)}
+                 onHide={()=>{
+                     this.buttonModeAction=null;
+                     this.onClick(this)
+                 }}
                  backdrop="static"
                  keyboard={false}
              >
@@ -106,9 +95,7 @@ class DialogIon extends Component{
                              return(
                                  <Button key={i} variant={b._type} onClick={()=>{
                                      this.buttonModeAction=b;
-                                     this.setState({isShow:false})
-                                     let { resolve, reject } = this.promiseInfo;
-                                     resolve(this.buttonModeAction)
+                                     this.onClick(this)
                                  }}>
                                      {b._name}
                                  </Button>
@@ -120,25 +107,6 @@ class DialogIon extends Component{
              </Modal>
          );
      }
-
-    getResolve() {
-        const { resolve = () => {} } = this.promiseInfo || {};
-        return result => {
-            resolve(result);
-            this.hide();
-        };
-    }
-
-
-    getReject() {
-        const { reject = () => {} } = this.promiseInfo || {};
-        return err => {
-            reject(err);
-            this.hide();
-        };
-    }
-
-
 
  }
 
