@@ -87,6 +87,7 @@ class DialogIon extends Component{
      render() {
 
          return(
+
              <Modal ref={this.myRef}
                     show={this.state.isShow}
                  onHide={this.onClick.bind(this)}

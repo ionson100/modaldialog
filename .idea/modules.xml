@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/madaldialog.iml" filepath="$PROJECT_DIR$/.idea/madaldialog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modaldialog.iml" filepath="$PROJECT_DIR$/.idea/modaldialog.iml" />
     </modules>
   </component>
 </project>
