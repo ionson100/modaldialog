@@ -18,17 +18,38 @@ import * as ReactDOM from "react-dom";
 
      }
     async DialogAlert(dialogData) {
-         this.extracted(dialogData);
+        this.extracted(dialogData);
         const modal = this.myRef.current;
-        alert('start')
-        const  res= await modal.show();
-        alert('finish')
-        return new Promise((resolve, reject) => {
-
-            resolve(1234);
-
-        });
+        const  res= await modal.show("alert");
+        return res;
     }
+     async DialogConfirm(dialogData) {
+        if(dialogData.countButton!==2){
+           throw   Error(`DialogConfirm, должно быть две кнопки, у вас ${dialogData.countButton}`)
+        }
+         this.extracted(dialogData);
+         const modal = this.myRef.current;
+         const  res= await modal.show("confirm");
+         return res;
+     }
+     async DialogSelection(dialogData) {
+         this.extracted(dialogData);
+         const modal = this.myRef.current;
+         const  res= await modal.show("selection");
+         return res;
+     }
+     async DialogFree(dialogData) {
+         this.extracted(dialogData);
+         const modal = this.myRef.current;
+         const  res= await modal.show("free");
+         return res;
+     }
+     async DialogForm(dialogData) {
+         this.extracted(dialogData);
+         const modal = this.myRef.current;
+         const  res= await modal.show("form");
+         return res;
+     }
 
 
  }
@@ -43,14 +64,19 @@ class DialogIon extends Component{
              buttons:props.dialogData?._buttons??[],
              isShow:false//props.dialogData?._isShow??true,
 
+
          }
+         this.refForm=undefined;
          this.myRef= React.createRef();
+         this.myRefWorm= React.createRef();
          this.buttonModeAction=undefined;
          this.promiseInfo = {};
+         this.dialogType="none";
+
 
      }
-    show = async () => {
-
+    show = async (type) => {
+        this.dialogType=type;
         return new Promise((resolve, reject) => {
             this.promiseInfo = {
                 resolve,
@@ -62,15 +88,88 @@ class DialogIon extends Component{
         });
     };
 
+
      onClick=()=>{
-        this.setState({isShow:false})
+
          let { resolve, reject } = this.promiseInfo;
-         resolve(this.buttonModeAction)
+        switch (this.dialogType){
+            case "none":{
+                resolve(this.buttonModeAction)
+                this.setState({isShow:false})
+
+                break
+            }
+            case "free":{
+                resolve(this.buttonModeAction)
+                this.setState({isShow:false})
+                break
+            }
+            case "alert":{
+                const ss=this.buttonModeAction?.modeId??-1;
+                if(ss===1){
+                    resolve(true)
+                }else{
+                    resolve(false)
+                }
+                this.setState({isShow:false})
+                break
+            }
+            case "confirm":{
+                const ss=this.buttonModeAction?.modeId??-1;
+                if(ss!==1){
+                    resolve(false)
+                }else{
+                    resolve(true)
+                }
+                this.setState({isShow:false})
+                break
+            }
+            case "selection":{
+                const ss=this.buttonModeAction?.modeId??-1;
+                resolve(ss)
+                this.setState({isShow:false})
+                break
+            }
+            case "form":{
+
+                const ss=this.buttonModeAction?.modeId??-1;
+                if(ss===-1){
+                    resolve(null)
+                    this.setState({isShow:false})
+                    break
+                }
+
+
+                 console.log("33333333333333",window.refform.validate.bind(window.refform)())
+
+                // if(window.refform.validate()===true){
+                //     resolve(window.refform.getData())
+                // }
+
+
+                break
+            }
+
+        }
+
      }
 
 
 
+     checkBodu(b){
+         if (typeof b === 'function') {
+             this.refForm=React.createElement(b,{})
+
+             return this.refForm;
+
+
+         }else{
+             return b;
+         }
+     }
+
      render() {
+
 
          return(
 
@@ -87,17 +186,19 @@ class DialogIon extends Component{
                      <Modal.Title>{this.state.head}</Modal.Title>
                  </Modal.Header>
                  <Modal.Body>
-                     {this.state.body}
+
+
+                     {this.checkBodu(this.state.body)}
                  </Modal.Body>
                  <Modal.Footer>
                      {
                          this.state.buttons.map((b,i)=>{
                              return(
-                                 <Button key={i} variant={b._type} onClick={()=>{
+                                 <Button key={i} variant={b.variant} onClick={()=>{
                                      this.buttonModeAction=b;
                                      this.onClick(this)
                                  }}>
-                                     {b._name}
+                                     {b.name}
                                  </Button>
                              );
                          })
