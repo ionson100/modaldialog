@@ -1,5 +1,5 @@
 import React from "react";
-import * as ReactDOM from "react-dom";
+
 
 export default class Clock extends React.Component {
     constructor(props) {

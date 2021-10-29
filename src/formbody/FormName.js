@@ -1,5 +1,5 @@
-import React, {Component, useState} from "react";
-import {Button, FloatingLabel, Form, Row} from "react-bootstrap";
+import React, {Component} from "react";
+import { FloatingLabel, Form, Row} from "react-bootstrap";
 
 
 //  export function FormName2(props){
@@ -98,12 +98,19 @@ import {Button, FloatingLabel, Form, Row} from "react-bootstrap";
 
         const form = this.myRef.current;
         if (form.checkValidity() === false) {
-
+            this.setValidated(true);
+            return false
         }
         this.setValidated(true);
+        return true;
+
     };
     getData=()=>{
-
+        return {
+            lang:this.myRef1.current.value,
+            name:this.myRef2.current.value,
+            description:this.myRef3.current.value
+        }
     }
 
     render() {
@@ -138,8 +145,6 @@ import {Button, FloatingLabel, Form, Row} from "react-bootstrap";
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Row>
-
-                <Button  type="button" onClick={this.validate.bind(this)}>Submit form</Button>
             </Form>
         );
     }
