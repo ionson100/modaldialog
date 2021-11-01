@@ -33,7 +33,7 @@ import "./styleDialog.css"
      * @returns {{size: *, centered, fullscree, dialogClassName: *, contentClassName: *, scrollable, animation}}
      */
      getModalAttributes(o){
-        const  s={
+       return {
             size:o.size,
             fullscree:o.fullscree??false,
             centered:o.centered??false,
@@ -42,28 +42,33 @@ import "./styleDialog.css"
             contentClassName:o.contentClassName,
             scrollable:o.scrollable??true
         }
-        return s;
      }
 
      /**
-      * Асинхронный вызов алерта, данные диалога:dialogData ( стили кнопки готовим сами), условие: у кнопки ок modeId=1
+      * Асинхронный вызов базового, данные диалога:dialogData ( стили кнопки готовим сами), условие: у кнопки ок modeId=1 у кнопки close modeId=-1
       * @param dialogData данные кнопки
       * @param size {'sm'| 'lg'|'xl'} Визуализируйте модальное окно большого, очень большого или маленького размера.
       * Если не указан, модальное окно отображается со средним (по умолчанию) размером.
-      * @param fullscree {true| 'sm-down'| 'md-down'| 'lg-down'| 'xl-down'|'xxl-down'}Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
+      * @param fullscree Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
       * отображаться в полноэкранном режиме ниже размера точки останова.
       * @param centered {boolean} вертикально центрируйте диалог в окне
       * @param animation {boolean} использование анимации при открытии окна
       * @param dialogClassName {string} Класс css для применения к узлу DOM модального диалога.
       * @param contentClassName {string} необязательное имя дополнительного класса в .modal-content
       * @param scrollable {boolean} возможность прокрутки содержимого окна
+      * @returns {Q.Promise<*>}
+      *  resolve {MyResolve}
+      *  ok: true - ok  select, false- cancel  or close
+      *  modeId: modeId  нажатой кнопки ( close= -1)
+      *  button: нажатая кнопка ( close is null)
+      *  formData: только для пользовательского контента тела,
+      *  reject {Error}
       */
-    async DialogAlertCore({dialogData,size,fullscree,centered,animation,dialogClassName,contentClassName,scrollable}) {
+    async DialogSimpleCore({dialogData,size,fullscree,centered,animation,dialogClassName,contentClassName,scrollable}) {
         dialogData.modalAtr=this.getModalAttributes(arguments[0])
         this.extracted(dialogData);
         const modal = this.myRef.current;
-        const  res= await modal.show("simple");
-        return res;
+        return  await modal.show("simple");
     }
 
      /**
@@ -73,7 +78,7 @@ import "./styleDialog.css"
       * @param icon текст или компонент для иконки заголовка окна
       * @param size {'sm'| 'lg'|'xl'} Визуализируйте модальное окно большого, очень большого или маленького размера.
       * Если не указан, модальное окно отображается со средним (по умолчанию) размером.
-      * @param fullscree {true| 'sm-down'| 'md-down'| 'lg-down'| 'xl-down'|'xxl-down'}Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
+      * @param fullscree Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
       * отображаться в полноэкранном режиме ниже размера точки останова.
       * @param centered {boolean} вертикально центрируйте диалог в окне
       * @param animation {boolean} использование анимации при открытии окна
@@ -97,38 +102,9 @@ import "./styleDialog.css"
          props.modalAtr=this.getModalAttributes(arguments[0])
          this.extracted(props);
          const modal = this.myRef.current;
-         const  res= await modal.show("simple");
-         return res;
+         return  await modal.show("simple");
      }
-     /**
-      * Асинхронный вызов confirm dialog, данные диалога:dialogData ( стили кнопки готовим сами), условие: у кнопки ок modeId=1
-      * @param dialogData данные кнопки
-      * @param size {'sm'| 'lg'|'xl'} Визуализируйте модальное окно большого, очень большого или маленького размера.
-      * Если не указан, модальное окно отображается со средним (по умолчанию) размером.
-      * @param fullscree {true| 'sm-down'| 'md-down'| 'lg-down'| 'xl-down'|'xxl-down'}Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
-      * отображаться в полноэкранном режиме ниже размера точки останова.
-      * @param centered {boolean} вертикально центрируйте диалог в окне
-      * @param animation {boolean} использование анимации при открытии окна
-      * @param dialogClassName {string} Класс css для применения к узлу DOM модального диалога.
-      * @param contentClassName {string} необязательное имя дополнительного класса в .modal-content
-      * @param scrollable {boolean} возможность прокрутки содержимого окна
-      * @returns {Q.Promise<*>}
-      *  resolve {MyResolve}
-      *  ok: true - ok  select, false- cancel  or close
-      *  modeId: modeId  нажатой кнопки ( close= -1)
-      *  button: нажатая кнопка ( close is null)
-      *  formData: только для пользовательского контента тела,
-      *  reject {Error}
-      */
-     async DialogConfirmCore({dialogData,size,fullscreen,centered,animation,dialogClassName,contentClassName,scrollable}) {
 
-
-         dialogData.modalAtr=this.getModalAttributes(arguments[0])
-         this.extracted(dialogData);
-         const modal = this.myRef.current;
-         const  res= await modal.show("simple");
-         return res;
-     }
      /**
       * Асинхронный упрощенный вызов диалога соглашения, объект DialogData создается по умолчанию
       * @param head текст или компонент для заголовка окна
@@ -136,7 +112,7 @@ import "./styleDialog.css"
       * @param icon текст или компонент для иконки заголовка окна
       * @param size {'sm'| 'lg'|'xl'} Визуализируйте модальное окно большого, очень большого или маленького размера.
       * Если не указан, модальное окно отображается со средним (по умолчанию) размером.
-      * @param fullscree {true| 'sm-down'| 'md-down'| 'lg-down'| 'xl-down'|'xxl-down'}Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
+      * @param fullscree Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
       * отображаться в полноэкранном режиме ниже размера точки останова.
       * @param centered {boolean} вертикально центрируйте диалог в окне
       * @param animation {boolean} использование анимации при открытии окна
@@ -159,8 +135,7 @@ import "./styleDialog.css"
          props.modalAtr=this.getModalAttributes(arguments[0])
          this.extracted(props);
          const modal = this.myRef.current;
-         const  res= await modal.show("simple");
-         return res;
+         return await modal.show("simple");
      }
 
 
@@ -168,14 +143,15 @@ import "./styleDialog.css"
       * Асинхронный вызов диалога c пользовательским контентом, данные диалога:dialogData ( стили кнопки готовим сами), условие: у кнопки ок modeId=1
       * показ кнопок происходит с лево на право с начала списка кнопок.
       * Объект пользовательского контента должен реализовывать два метода:
-      * 1 validate() метод возвращает булевое значения результата валидации пользовательских данных
-      * 2 getData() возвращает объект состояния пользовательских данных
+      * 1 validate(modeId) метод возвращает булевое значения результата валидации пользовательских данных
+      * 2 getData(modeId) возвращает объект состояния пользовательских данных
+      * параметр modeId - modeId нажатой кнопки
       * Все методы должны быть пропатчены контекстом в конструкторе  через .bind(this) ( this.validate.bind(this) this.getData.bind(this))
-      * Сам объект должен быть зарегистрирован через global.refform=this; в конструкторе
+      * Сам объект должен быть зарегистрирован через global.refform=this; в конструкторе пользовательского компонета формы или через рендеринг.
       * @param dialogData данные кнопки
       * @param size {'sm'| 'lg'|'xl'} Визуализируйте модальное окно большого, очень большого или маленького размера.
       * Если не указан, модальное окно отображается со средним (по умолчанию) размером.
-      * @param fullscree {true| 'sm-down'| 'md-down'| 'lg-down'| 'xl-down'|'xxl-down'}Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
+      * @param fullscree Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
       * отображаться в полноэкранном режиме ниже размера точки останова.
       * @param centered {boolean} вертикально центрируйте диалог в окне
       * @param animation {boolean} использование анимации при открытии окна
@@ -194,8 +170,8 @@ import "./styleDialog.css"
          dialogData.modalAtr=this.getModalAttributes(arguments[0])
          this.extracted(dialogData);
          const modal = this.myRef.current;
-         const  res= await modal.show("form");
-         return res;
+         return  await modal.show("form");
+
      }
 
 
@@ -255,8 +231,7 @@ class DialogIon extends Component{
                  case "simple":{
                      const ss=this.buttonModeAction?.modeId??-1;
                      const ok=ss!==-1;
-                     const mid=ss;
-                     resolve(new MyResolve({ok:ok,modeId:mid,button:this.buttonModeAction}))
+                     resolve(new MyResolve({ok:ok,modeId:ss,button:this.buttonModeAction}))
                      this.setState({isShow:false})
                      break
                  }
@@ -266,17 +241,15 @@ class DialogIon extends Component{
 
                      const ss=this.buttonModeAction?.modeId??-1;
                      if(ss!==-1){
-                         if(global.refform.validate()===true){  //todo внимание тут магия вызова снаружи
-                             const res=global.refform.getData();//todo внимание тут магия вызова снаружи
+                         if(global.refform.validate(ss)===true){  //todo внимание тут магия вызова снаружи
+                             const res=global.refform.getData(ss);//todo внимание тут магия вызова снаружи
                              const ok=ss!==-1;
-                             const mid=ss;
-                             resolve(new MyResolve({ok:ok,modeId:mid,button:this.buttonModeAction,formData:res}))
+                             resolve(new MyResolve({ok:ok,modeId:ss,button:this.buttonModeAction,formData:res}))
                              this.setState({isShow:false})
                          }
                      }else{
                          const ok=ss!==-1;
-                         const mid=ss;
-                         resolve(new MyResolve({ok:ok,modeId:mid,button:this.buttonModeAction}))
+                         resolve(new MyResolve({ok:ok,modeId:ss,button:this.buttonModeAction}))
                          this.setState({isShow:false})
                      }
                      break
@@ -373,7 +346,7 @@ export class MyResolve{
      modeId;
      button;
      formData;
-    constructor({ok=false,cancel=false,modeId=-1,button=undefined,formData=undefined}) {
+    constructor({ok=false,modeId=-1,button=undefined,formData=undefined}) {
         this.ok = ok;
         this.modeId = modeId;
         this.button = button;

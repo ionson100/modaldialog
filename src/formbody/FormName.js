@@ -92,7 +92,13 @@ import { FloatingLabel, Form, Row} from "react-bootstrap";
          this.setState({validated:v})
          this.forceUpdate()
      }
-     validate(){
+
+     /**
+      * проверка пользовательских данных
+      * @param modeId modeId нажатой кнопки
+      * @returns {boolean} true - данные хорошие, false- данные плохие
+      */
+     validate(modeId){
 
 
 
@@ -106,8 +112,15 @@ import { FloatingLabel, Form, Row} from "react-bootstrap";
         return true;
 
     };
-    getData=()=>{
+
+     /**
+      * получение данных с формы
+      * @param modeId  modeId нажатой кнопки
+      * @returns {{name, description, lang}}
+      */
+    getData=(modeId)=>{
         return {
+            modeId:modeId,
             lang:this.myRef1.current.value,
             name:this.myRef2.current.value,
             description:this.myRef3.current.value
@@ -121,7 +134,7 @@ import { FloatingLabel, Form, Row} from "react-bootstrap";
                     <Form.Group  md="6" controlId="validationCustom02">
                         <FloatingLabel controlId="floatingSelect" label="Язык">
                             <Form.Control ref={this.myRef1} as="select" placeholder="Выбор языка" required defaultValue={this.lang} >
-                                <option value={undefined}></option>
+                                <option value={undefined}/>
                                 <option value="Ru">Руссский</option>
                                 <option value="En">English</option>
                             </Form.Control>

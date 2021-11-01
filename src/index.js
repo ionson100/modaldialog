@@ -1,4 +1,4 @@
-import { MdOutlineSettings } from "react-icons/md";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import WrapperModal from "./modaldialogion/DialogIon";
@@ -10,7 +10,7 @@ import React from "react";
 import Clock from "./clock/Clock";
 import {FormNameF} from "./formbody/FormName"
 import Icon from  "./iconosprait/myicons"
-import {Image} from "react-bootstrap";
+
 
 
 const dialog=new WrapperModal("root");
@@ -25,7 +25,7 @@ bt1.onclick=()=>{
         {head:"Simple Dialog",body:"Body Dialog"}).then(value => {
         span.innerHTML=JSON.stringify(value,null,1);
    }).catch(reason => {
-
+        console.log(reason)
     })
 }
 
@@ -35,6 +35,7 @@ bt2.onclick=()=>{
         span.innerHTML=JSON.stringify(value,null,1);
     }).catch(reason => {
 
+        console.log(reason)
     })
 }
 
@@ -44,6 +45,7 @@ bt3.onclick=()=>{
         span.innerHTML=`Нажали кнопку: ${JSON.stringify(value,null,1)}`;
     }).catch(reason => {
 
+        console.log(reason)
     })
 }
 
@@ -71,6 +73,7 @@ bt5.onclick=()=>{
             span.innerHTML=JSON.stringify(value,null,1);
         }).catch(reason => {
 
+            console.log(reason)
         })
     }
 
@@ -85,6 +88,7 @@ bt5.onclick=()=>{
             span.innerHTML=JSON.stringify(value,null,1);
         }).catch(reason => {
 
+            console.log(reason)
         })
     }
 
@@ -97,6 +101,7 @@ bt5.onclick=()=>{
             span.innerHTML=JSON.stringify(value,null,1);
         }).catch(reason => {
 
+            console.log(reason)
         })
     }
 
@@ -109,6 +114,7 @@ bt5.onclick=()=>{
             span.innerHTML=JSON.stringify(value,null,1);
         }).catch(reason => {
 
+            console.log(reason)
         })
     }
 
@@ -121,6 +127,7 @@ bt5.onclick=()=>{
             span.innerHTML=JSON.stringify(value,null,1);
         }).catch(reason => {
 
+            console.log(reason)
         })
     }
 
@@ -135,19 +142,19 @@ bt5.onclick=()=>{
 reportWebVitals();
 ReactDOM.render(<Clock />, document.getElementById('mount'))
 
-function confirmDialog(head,body){
-    const props=new DialogData(head,body)
-    props.pushButton(new DialogButton("Cancel",-1,"secondary")).pushButton(new DialogButton("Ok"));
-   return  dialog.DialogAlertCore({dialogData:props});
-}
+// function confirmDialog(head,body){
+//     const props=new DialogData(head,body)
+//     props.pushButton(new DialogButton("Cancel",-1,"secondary")).pushButton(new DialogButton("Ok"));
+//    return  dialog.DialogSimpleCore({dialogData:props});
+// }
 //eslint-disable-next-line
 function selectionDialog(head,body){
     const props=new DialogData(head,body)
-    props.pushButton(new DialogButton("select 1",1,"primary")).
-    pushButton(new DialogButton("select 2",2,"primary")).
-    pushButton(new DialogButton("select 3",3,"primary")).
-    pushButton(new DialogButton("Close",-1,"danger"));
-    return  dialog.DialogAlertCore({dialogData:props});
+    props.pushButton(new DialogButton("select 1",1,"primary"))
+    .pushButton(new DialogButton("select 2",2,"primary"))
+    .pushButton(new DialogButton("select 3",3,"primary"))
+    .pushButton(new DialogButton("Close",-1,"danger"));
+    return  dialog.DialogSimpleCore({dialogData:props});
 }
 
 
@@ -155,7 +162,7 @@ function formDialog(){
 
     const  p={name:"simple route",lang:"Ru",description:"tratata"}
     const props=new DialogData("Название маршрута",<FormNameF data={p} />)
-    props.pushButton(new DialogButton("Save",2,"primary")).
-    pushButton(new DialogButton("Close",-1,"danger"));
+    props.pushButton(new DialogButton("Save",2,"primary"))
+    .pushButton(new DialogButton("Close",-1,"danger"));
     return  dialog.DialogForm({dialogData:props});
 }
