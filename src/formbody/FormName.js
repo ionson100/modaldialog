@@ -126,8 +126,14 @@ import { FloatingLabel, Form, Row} from "react-bootstrap";
             description:this.myRef3.current.value
         }
     }
+    componentDidMount() {
+        setTimeout(() => {
+            this.myRef2.current.focus();
+            }, 1);
 
-    render() {
+    }
+
+     render() {
         return(
             <Form noValidate ref={this.myRef} validated={this.state.validated} >
                 <Row className="mb-3">

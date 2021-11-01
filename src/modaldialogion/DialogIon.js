@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal'
 import * as ReactDOM from "react-dom";
 import DialogData, {DialogButton} from "./DialogData";
 import "./styleDialog.css"
+import PromptBody from "./PromptBody"
 
 /**
  * обертка компонента модального окна, требуется точка монтирования
@@ -173,6 +174,17 @@ import "./styleDialog.css"
          return  await modal.show("form");
 
      }
+
+    async DialogPrompt({head,body,icon,size,fullscreen,centered,animation,dialogClassName,contentClassName,scrollable,valueForPrompt}) {
+
+         const p={label:body,value:valueForPrompt}
+        const props=new DialogData(head,<PromptBody data={p}/>,icon)
+        props.pushButton(new DialogButton("Ok")).pushButton(new DialogButton("Cancel",-1,"secondary"));
+        props.modalAtr=this.getModalAttributes(arguments[0])
+        this.extracted(props);
+        const modal = this.myRef.current;
+        return await modal.show("form");
+    }
 
 
  }

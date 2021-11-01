@@ -64,6 +64,17 @@ bt5.onclick=()=>{
     })
 }
 
+const bt6=document.getElementById('bt_6');
+bt6.onclick=()=>{
+    span.innerHTML=""
+    dialog.DialogPrompt({head:"Simple prompt Dialog",body:"Пож. введите текст",valueForPrompt:"my text",icon:
+            <Icon name="info"   size={40} />,centered:true}).then(value => {
+        span.innerHTML=JSON.stringify(value);
+    }).catch(reason => {
+        console.log(reason)
+    })
+}
+
 {
     const bt11=document.getElementById('bt_11');
     bt11.onclick=()=>{
@@ -163,6 +174,7 @@ function formDialog(){
     const  p={name:"simple route",lang:"Ru",description:"tratata"}
     const props=new DialogData("Название маршрута",<FormNameF data={p} />)
     props.pushButton(new DialogButton("Save",2,"primary"))
-    .pushButton(new DialogButton("Close",-1,"danger"));
+        .pushButton(new DialogButton("Close",-1,"danger"));
     return  dialog.DialogForm({dialogData:props});
 }
+
