@@ -1,7 +1,7 @@
 import React from "react";
 import { FloatingLabel, Form, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import WrapperModal from "../modaldialogion/DialogIon";
+import {DialogPrompt} from "../modaldialogion/DialogIon";
 import BaseDialog from "../modaldialogion/BaseDialog";
 
 
@@ -82,7 +82,7 @@ import BaseDialog from "../modaldialogion/BaseDialog";
 
      render() {
         return(
-            <Form noValidate ref={this.myRef} validated={this.state.validated} >
+            <Form noValidate ref={this.myRef} validated={this.state.validated} onKeyDown={()=>{return false}} >
                 <Row className="mb-3">
                     <Form.Group  md="6" controlId="validationCustom02">
                         <FloatingLabel controlId="floatingSelect" label="Язык">
@@ -96,9 +96,9 @@ import BaseDialog from "../modaldialogion/BaseDialog";
                             </Form.Control.Feedback>
                         </FloatingLabel>
                     </Form.Group>
-                    <Form.Group  md="6" controlId="validationCustom03">
+                    <Form.Group  md="6" controlId="validationCustom03" onKeyDown={()=>{return false}}>
                         <Form.Label>Название маршрута</Form.Label>
-                        <Form.Control ref={this.myRef2}  type="text" placeholder="Название маршрута" required defaultValue={this.name}  />
+                        <Form.Control ref={this.myRef2}  type="text"  placeholder="Название маршрута" onKeyDown={()=>{return false}} required defaultValue={this.name}  />
                         <Form.Control.Feedback type="invalid">
                             Please provide a valid route.
                         </Form.Control.Feedback>
@@ -112,8 +112,8 @@ import BaseDialog from "../modaldialogion/BaseDialog";
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Row>
-                <Button variant="info" onClick={()=>{
-                    WrapperModal.InstanceModal.DialogPrompt({head:"asasa",body:"asdassad"})
+                <Button variant="info"  onClick={()=>{
+                    DialogPrompt({head:"asasa",body:"asdassad"})
                 }}>click</Button>
             </Form>
         );

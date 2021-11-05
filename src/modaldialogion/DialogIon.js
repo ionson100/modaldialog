@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 /**
  * обертка компонента модального окна, требуется точка монтирования
  */
- export default class WrapperModal{
+ class WrapperModal{
      myRef= React.createRef();
     static InstanceModal
     /**
@@ -50,159 +50,6 @@ import { v4 as uuidv4 } from 'uuid';
             scrollable:o.scrollable??true
         }
      }
-
-     /**
-      * Асинхронный вызов базового, данные диалога:dialogData ( стили кнопки готовим сами), условие: у кнопки ок modeId=1 у кнопки close modeId=-1
-      * @param dialogData данные кнопки
-      * @param size {'sm'| 'lg'|'xl'} Визуализируйте модальное окно большого, очень большого или маленького размера.
-      * Если не указан, модальное окно отображается со средним (по умолчанию) размером.
-      * @param fullscree Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
-      * отображаться в полноэкранном режиме ниже размера точки останова.
-      * @param centered {boolean} вертикально центрируйте диалог в окне
-      * @param animation {boolean} использование анимации при открытии окна
-      * @param dialogClassName {string} Класс css для применения к узлу DOM модального диалога.
-      * @param contentClassName {string} необязательное имя дополнительного класса в .modal-content
-      * @param scrollable {boolean} возможность прокрутки содержимого окна
-      * @returns {Q.Promise<*>}
-      *  resolve {MyResolve}
-      *  ok: true - ok  select, false- cancel  or close
-      *  modeId: modeId  нажатой кнопки ( close= -1)
-      *  button: нажатая кнопка ( close is null)
-      *  formData: только для пользовательского контента тела,
-      *  reject {Error}
-      */
-    async DialogSimpleCore({dialogData,size,fullscree,centered,animation,dialogClassName,contentClassName,scrollable}) {
-        dialogData.modalAtr=this.getModalAttributes(arguments[0])
-        this.extracted(dialogData);
-        const modal = this.myRef.current;
-        return  await modal.show("simple");
-    }
-
-     /**
-      * Асинхронный упрощенный вызов алерта, объект DialogData создается по умолчанию
-      * @param head текст или компонент для заголовка окана
-      * @param body текст или компонент для тела окна
-      * @param icon текст или компонент для иконки заголовка окна
-      * @param size {'sm'| 'lg'|'xl'} Визуализируйте модальное окно большого, очень большого или маленького размера.
-      * Если не указан, модальное окно отображается со средним (по умолчанию) размером.
-      * @param fullscree Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
-      * отображаться в полноэкранном режиме ниже размера точки останова.
-      * @param centered {boolean} вертикально центрируйте диалог в окне
-      * @param animation {boolean} использование анимации при открытии окна
-      * @param dialogClassName {string} Класс css для применения к узлу DOM модального диалога.
-      * @param contentClassName {string} необязательное имя дополнительного класса в .modal-content
-      * @param scrollable {boolean} возможность прокрутки содержимого окна
-      * @returns {Q.Promise<*>}
-      *  resolve {MyResolve}
-      *  ok: true - ok  select, false- cancel  or close
-      *  modeId: modeId  нажатой кнопки ( close= -1)
-      *  button: нажатая кнопка ( close is null)
-      *  formData: только для пользовательского контента тела,
-      *  reject {Error}
-      */
-     async DialogAlert({head,body,icon,size,fullscreen,centered,animation,dialogClassName,contentClassName,scrollable}) {
-
-
-
-         const props=new DialogData(head,body,icon)
-         props.pushButton(new DialogButton("Close"));
-         props.modalAtr=this.getModalAttributes(arguments[0])
-         this.extracted(props);
-         const modal = this.myRef.current;
-         return  await modal.show("simple");
-     }
-
-     /**
-      * Асинхронный упрощенный вызов диалога соглашения, объект DialogData создается по умолчанию
-      * @param head текст или компонент для заголовка окна
-      * @param body текст или компонент для тела окна
-      * @param icon текст или компонент для иконки заголовка окна
-      * @param size {'sm'| 'lg'|'xl'} Визуализируйте модальное окно большого, очень большого или маленького размера.
-      * Если не указан, модальное окно отображается со средним (по умолчанию) размером.
-      * @param fullscree Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
-      * отображаться в полноэкранном режиме ниже размера точки останова.
-      * @param centered {boolean} вертикально центрируйте диалог в окне
-      * @param animation {boolean} использование анимации при открытии окна
-      * @param dialogClassName {string} Класс css для применения к узлу DOM модального диалога.
-      * @param contentClassName {string} необязательное имя дополнительного класса в .modal-content
-      * @param scrollable {boolean} возможность прокрутки содержимого окна
-      * @returns {Q.Promise<*>}
-      *  resolve {MyResolve}
-      *  ok: true - ok  select, false- cancel  or close
-      *  modeId: modeId  нажатой кнопки ( close= -1)
-      *  button: нажатая кнопка ( close is null)
-      *  formData: только для пользовательского контента тела,
-      *  reject {Error}
-      */
-
-     async DialogConfirm({head,body,icon,size,fullscreen,centered,animation,dialogClassName,contentClassName,scrollable}) {
-
-         const props=new DialogData(head,body)
-         props.pushButton(new DialogButton("Ok")).pushButton(new DialogButton("Cancel",-1,"secondary"));
-         props.modalAtr=this.getModalAttributes(arguments[0])
-         this.extracted(props);
-         const modal = this.myRef.current;
-         return await modal.show("simple");
-     }
-
-    async DialogModalAsync({head,body,icon,listButton,size,fullscreen,centered,animation,dialogClassName,contentClassName,scrollable}) {
-
-        const props=new DialogData(head,body)
-        props.pushButton(listButton)
-        props.modalAtr=this.getModalAttributes(arguments[0])
-        this.extracted(props);
-        const modal = this.myRef.current;
-        return await modal.show("simple");
-    }
-
-
-     /**
-      * Асинхронный вызов диалога c пользовательским контентом, данные диалога:dialogData ( стили кнопки готовим сами), условие: у кнопки ок modeId=1
-      * показ кнопок происходит с лево на право с начала списка кнопок.
-      * Объект пользовательского контента должен реализовывать два метода:
-      * 1 validate(modeId) метод возвращает булевое значения результата валидации пользовательских данных
-      * 2 getData(modeId) возвращает объект состояния пользовательских данных
-      * параметр modeId - modeId нажатой кнопки
-      * Все методы должны быть пропатчены контекстом в конструкторе  через .bind(this) ( this.validate.bind(this) this.getData.bind(this))
-      * Сам объект должен быть зарегистрирован через global.refform=this; в конструкторе пользовательского компонета формы или через рендеринг.
-      * @param dialogData данные кнопки
-      * @param size {'sm'| 'lg'|'xl'} Визуализируйте модальное окно большого, очень большого или маленького размера.
-      * Если не указан, модальное окно отображается со средним (по умолчанию) размером.
-      * @param fullscree Отображает полноэкранное модальное окно. При указании точки останова модальное окно будет
-      * отображаться в полноэкранном режиме ниже размера точки останова.
-      * @param centered {boolean} вертикально центрируйте диалог в окне
-      * @param animation {boolean} использование анимации при открытии окна
-      * @param dialogClassName {string} Класс css для применения к узлу DOM модального диалога.
-      * @param contentClassName {string} необязательное имя дополнительного класса в .modal-content
-      * @param scrollable {boolean} возможность прокрутки содержимого окна
-      * @returns {Q.Promise<*>}
-      *  resolve {MyResolve}
-      *  ok: true - ok  select, false- cancel  or close
-      *  modeId: modeId  нажатой кнопки ( close= -1)
-      *  button: нажатая кнопка ( close is null)
-      *  formData: только для пользовательского контента тела,
-      *  reject {Error}
-      */
-     async DialogForm({dialogData,size,fullscreen,centered,animation,dialogClassName,contentClassName,scrollable}) {
-         dialogData.modalAtr=this.getModalAttributes(arguments[0])
-         this.extracted(dialogData);
-         const modal = this.myRef.current;
-         return  await modal.show("form");
-
-     }
-
-    async DialogPrompt({head,body,icon,size,fullscreen,centered,animation,dialogClassName,contentClassName,scrollable,valueForPrompt}) {
-
-         const p={label:body,value:valueForPrompt}
-        const props=new DialogData(head,<PromptBody data={p}/>,icon)
-        props.pushButton(new DialogButton("Ok")).pushButton(new DialogButton("Cancel",-1,"secondary"));
-        props.modalAtr=this.getModalAttributes(arguments[0])
-        this.extracted(props);
-        const modal = this.myRef.current;
-        return await modal.show("form");
-    }
-
-
  }
 
 
@@ -231,9 +78,9 @@ class DialogIon extends Component{
 
 
          }
-         this.self=this;
+
          this.modalAtr=props.dialogData.modalAtr;// атрибуты для модального диалога
-         this.refForm=undefined;
+
          this.myRef= React.createRef();
          this.buttonModeAction=undefined;// копка которую нажали, закрытие по кресту odeId=-1
          this.promiseInfo = {};
@@ -256,6 +103,7 @@ class DialogIon extends Component{
                  moduleId:undefined
              }
          }
+
 
          global.hostDialog.oldDialog=global.hostDialog.currentDialog
 
@@ -298,6 +146,20 @@ class DialogIon extends Component{
         return true
 
     }
+    checkValidateForm(b){
+        if(this.innerValidate){
+            return this.innerValidate(b)
+        }else {
+            return true;
+        }
+    }
+    checkGetDataForm(b){
+        if(this.innerGetData) {
+            return this.innerGetData(b)
+        }else {
+            return {data:"Base data body content"}
+        }
+    }
 
 
     onClick=()=>{
@@ -325,8 +187,8 @@ class DialogIon extends Component{
 
                      const ss=this.buttonModeAction?.modeId??-1;
                      if(ss!==-1){
-                         if(this.innerValidate()===true){  //todo внимание тут магия вызова снаружи
-                             const res=this.innerGetData(ss);//todo внимание тут магия вызова снаружи
+                         if(this.checkValidateForm(ss)===true){  //todo внимание тут магия вызова снаружи
+                             const res=this.checkGetDataForm(ss);//todo внимание тут магия вызова снаружи
                              const ok=ss!==-1;
                              resolve(new MyResolve({ok:ok,modeId:ss,button:this.buttonModeAction,formData:res}))
                              this.setState({isShow:false})
@@ -416,7 +278,7 @@ class DialogIon extends Component{
                      this.onClick(this)
                  }}
                  backdrop="static"
-                 keyboard={false}
+                 keyboard={true}
 
              >
 
@@ -444,7 +306,7 @@ class DialogIon extends Component{
 
  }
 
-export class MyResolve{
+ class MyResolve{
      ok;
      modeId;
      button;
@@ -457,23 +319,39 @@ export class MyResolve{
     }
  }
 
-async function  DialogModalAsync({head,body,icon,listButton=[],size,fullscreen,centered,animation,dialogClassName,contentClassName,scrollable}) {
+ export async function  DialogModalAsync({head,body,icon,listButton=[],size,fullscreen,centered,animation,dialogClassName,contentClassName,scrollable}) {
     const  wrap=new WrapperModal();
     const props=new DialogData(head,body,icon)
     listButton.map((b)=>{
         props.pushButton(b)
         return false
     })
+    let type="simple";
+    if(React.isValidElement(body)){
+        type="form"
+    }
 
     props.modalAtr=wrap.getModalAttributes(arguments[0])
     wrap.extracted(props);
     const modal = wrap.myRef.current;
-    return await modal.show("simple");
+    return await modal.show(type);
 }
 
  export async function DialogAlert({head,body,icon}) {
   const s=[new DialogButton("Close",-1,"primary",true)]
    return  DialogModalAsync({head:head,body:body,listButton:s,icon:icon})
+}
+
+export async  function DialogPrompt({head,body,icon,valueForPrompt}) {
+    const s=[new DialogButton("Close",-1,"primary",true),new DialogButton("Ok",1,"primary")]
+    const p={label:body,value:valueForPrompt}
+    const _body=<PromptBody data={p}/>
+    return  DialogModalAsync({head:head,body:_body,listButton:s,icon:icon})
+}
+
+export async function DialogConfirm({head,body,icon}) {
+    const s=[new DialogButton("Close",-1,"primary",true),new DialogButton("Ok",1,"primary")]
+    return  DialogModalAsync({head:head,body:body,listButton:s,icon:icon})
 }
 
 
