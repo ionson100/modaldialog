@@ -1,8 +1,9 @@
-import React, {Component} from "react";
+import React from "react";
 import { Form, Row} from "react-bootstrap";
+import BaseDialog from "./BaseDialog";
 
 
-export default  class PromptBody extends Component{
+export default  class PromptBody extends BaseDialog{
 
     constructor(props) {
         super(props);

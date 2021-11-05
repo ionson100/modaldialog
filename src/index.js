@@ -11,6 +11,8 @@ import Clock from "./clock/Clock";
 import {FormNameF} from "./formbody/FormName"
 import Icon from  "./iconosprait/myicons"
 
+import {DialogAlert} from "./modaldialogion/DialogIon"
+
 
 
 const dialog=new WrapperModal("root");
@@ -21,11 +23,11 @@ bt1.onclick=()=>{
 
     span.innerHTML=""
 
-    dialog.DialogAlert(
-        {head:"Simple Dialog",body:"Body Dialog"}).then(value => {
-        span.innerHTML=JSON.stringify(value,null,1);
+    DialogAlert(
+        {head:"Simple Dialog",body:"Body Dialog",icon:<Icon name="info" color="red"  size={40} />}).then(value => {
+        span.innerHTML=JSON.stringify(value);
    }).catch(reason => {
-        console.log(reason)
+        console.error(reason)
     })
 }
 

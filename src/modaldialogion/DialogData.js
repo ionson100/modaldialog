@@ -28,6 +28,7 @@ export default class DialogData{
      */
     pushButton(button){
         this._buttons.push(button);
+
         return this;
     }
     /*
@@ -36,6 +37,7 @@ export default class DialogData{
     get countButton(){
         return this._buttons.length;
     }
+
 }
 
 /**
@@ -48,10 +50,12 @@ export default class DialogData{
      * @param name текст в копке
      * @param modeId {number} идентификатор кнопки, для кнопки ок: = 1;
      * @param variant {string} стиль кнопки : https://react-bootstrap.github.io/components/buttons/
+     * @param isFocus первоначальный фокус кнопки
      */
-    constructor(name,modeId=1,variant="primary") {
+    constructor(name,modeId=1,variant="primary",isFocus=false) {
         this.name = name;
         this.variant = variant;
         this.modeId = modeId;
+        this.isFocus=isFocus;
     }
 }

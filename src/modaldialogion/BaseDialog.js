@@ -1,19 +1,16 @@
-import {DialogContext} from "./DialogIon";
+
 import {Component} from "react";
 
+
 export  default class BaseDialog extends Component {
-    constructor(props) {
-        super();
+        constructor(props) {
+        super(undefined);
         setTimeout(() => {
-            this.init()
+            global.hostDialog.currentDialog.innerValidate=this.validate.bind(this)
+            global.hostDialog.currentDialog.innerGetData=this.getData.bind(this)
         }, 1);
 
     }
-    init(){
-        this.context.validate(this.validate.bind(this))
-        this.context.getdata(this.getData.bind(this))
-    }
-
 
 
     validate(button){
@@ -23,4 +20,4 @@ export  default class BaseDialog extends Component {
 
     }
 }
-BaseDialog.contextType = DialogContext;
+

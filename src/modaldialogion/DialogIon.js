@@ -6,6 +6,7 @@ import * as ReactDOM from "react-dom";
 import DialogData, {DialogButton} from "./DialogData";
 import "./styleDialog.css"
 import PromptBody from "./PromptBody"
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -144,6 +145,16 @@ import PromptBody from "./PromptBody"
          return await modal.show("simple");
      }
 
+    async DialogModalAsync({head,body,icon,listButton,size,fullscreen,centered,animation,dialogClassName,contentClassName,scrollable}) {
+
+        const props=new DialogData(head,body)
+        props.pushButton(listButton)
+        props.modalAtr=this.getModalAttributes(arguments[0])
+        this.extracted(props);
+        const modal = this.myRef.current;
+        return await modal.show("simple");
+    }
+
 
      /**
       * Асинхронный вызов диалога c пользовательским контентом, данные диалога:dialogData ( стили кнопки готовим сами), условие: у кнопки ок modeId=1
@@ -195,16 +206,22 @@ import PromptBody from "./PromptBody"
  }
 
 
- export const DialogContext = React.createContext();
+
+
+
 /*
  Компонент асинхронного вызова диалога
  */
 class DialogIon extends Component{
+    static refParent;
 
 
 
      constructor(props) {
          super(props);
+         this.moduleIdCore=uuidv4()
+         this.checkGlobal()
+
          this.state={
              head:props.dialogData?._head??"no date",
              body:props.dialogData?._body??"no date",
@@ -224,14 +241,34 @@ class DialogIon extends Component{
          this.icon=props.dialogData?._icon??null;
          this.innerValidate=undefined
          this.innerGetData=undefined;
+         this.myRefFocus = React.createRef()
+
 
 
 
 
      }
-     Assa(){
-         alert(33)
+     checkGlobal(){
+         if(!global.hostDialog){
+             global.hostDialog={
+                 oldDialog:undefined,
+                 currentDialog:undefined,
+                 moduleId:undefined
+             }
+         }
+
+         global.hostDialog.oldDialog=global.hostDialog.currentDialog
+
+         global.hostDialog.currentDialog=this;
+         console.log("old",global.hostDialog.oldDialog)
+         console.log("current",global.hostDialog.currentDialog)
+         if(!global.hostDialog.moduleId){
+             global.hostDialog.moduleId=this.moduleIdCore;
+             console.log("init",global.hostDialog.moduleId,"  ",this.moduleIdCore)
+         }
      }
+
+
 
     show = async (type) => {
         this.dialogType=type;
@@ -245,9 +282,25 @@ class DialogIon extends Component{
             });
         });
     };
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if(nextState.isShow===false){
+            console.log(global.hostDialog.moduleId,"  ",this.moduleIdCore)
+            if(global.hostDialog.moduleId===this.moduleIdCore){
+                global.hostDialog.currentDialog=undefined;
+                global.hostDialog.oldDialog=undefined;
+                global.hostDialog.moduleId=undefined;
+            }else{
+                global.hostDialog.currentDialog=global.hostDialog.oldDialog;
+            }
 
 
-     onClick=()=>{
+        }
+        return true
+
+    }
+
+
+    onClick=()=>{
 
          let { resolve, reject } = this.promiseInfo;
          try{
@@ -318,13 +371,36 @@ class DialogIon extends Component{
              return (<div className="imageDialogion" style={{marginLeft:"10px",marginRight:"10px"}} > {this.icon}</div>);
          }
      }
+     checkButtonFocus(b,i){
+        if(b.isFocus ===true){
+            return ( <Button key={i} ref={this.myRefFocus} variant={b.variant} onClick={()=>{
+                this.buttonModeAction=b;
+                this.onClick(this)
+            }} data-mode-id={b.modeId}>
+                {b.name}
+            </Button>);
+        }else{
+            return ( <Button key={i}  variant={b.variant} onClick={()=>{
+                this.buttonModeAction=b;
+                this.onClick(this)
+            }} data-mode-id={b.modeId}>
+                {b.name}
+            </Button>);
+        }
+     }
+     componentDidMount() {
+         setTimeout(() => {
+             this.myRefFocus.current?.focus();
+         }, 1);
 
-     render() {
+     }
+
+    render() {
 
          return(
 
 
-             <DialogContext.Provider value={{validate:(v)=>{this.innerValidate=v},getdata:(v)=>{this.innerGetData=v}}}>
+
              <Modal ref={this.myRef}
                     size={this.modalAtr.size} as="section"
                     fullscreen={this.modalAtr.fullscree}
@@ -349,27 +425,20 @@ class DialogIon extends Component{
                      <Modal.Title>{this.state.head}</Modal.Title>
                  </Modal.Header>
                  <Modal.Body  >
-
-
                      {this.checkBody(this.state.body)}
                  </Modal.Body>
                  <Modal.Footer className="footerDialogion">
                      {
                          this.state.buttons.map((b,i)=>{
                              return(
-                                 <Button key={i} variant={b.variant} onClick={()=>{
-                                     this.buttonModeAction=b;
-                                     this.onClick(this)
-                                 }}>
-                                     {b.name}
-                                 </Button>
+                                 this.checkButtonFocus(b,i)
                              );
                          })
                      }
 
                  </Modal.Footer>
              </Modal>
-             </DialogContext.Provider>
+
          );
      }
 
@@ -387,5 +456,25 @@ export class MyResolve{
         this.formData=formData;
     }
  }
+
+async function  DialogModalAsync({head,body,icon,listButton=[],size,fullscreen,centered,animation,dialogClassName,contentClassName,scrollable}) {
+    const  wrap=new WrapperModal();
+    const props=new DialogData(head,body,icon)
+    listButton.map((b)=>{
+        props.pushButton(b)
+        return false
+    })
+
+    props.modalAtr=wrap.getModalAttributes(arguments[0])
+    wrap.extracted(props);
+    const modal = wrap.myRef.current;
+    return await modal.show("simple");
+}
+
+ export async function DialogAlert({head,body,icon}) {
+  const s=[new DialogButton("Close",-1,"primary",true)]
+   return  DialogModalAsync({head:head,body:body,listButton:s,icon:icon})
+}
+
 
 

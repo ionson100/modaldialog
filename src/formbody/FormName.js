@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import { FloatingLabel, Form, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import WrapperModal from "../modaldialogion/DialogIon";
@@ -47,12 +47,6 @@ import BaseDialog from "../modaldialogion/BaseDialog";
       */
      validate(modeId){
 
-         console.log(this.context)
-
-
-
-
-
         const form = this.myRef.current;
         if (form.checkValidity() === false) {
             this.setValidated(true);
@@ -76,8 +70,10 @@ import BaseDialog from "../modaldialogion/BaseDialog";
             description:this.myRef3.current.value
         }
     }
-    componentDidMount() {
-        //this.context.update(this.validate.bind(this))
+
+
+     componentDidMount() {
+
         setTimeout(() => {
             this.myRef2.current.focus();
             }, 1);
@@ -117,7 +113,7 @@ import BaseDialog from "../modaldialogion/BaseDialog";
                     </Form.Group>
                 </Row>
                 <Button variant="info" onClick={()=>{
-                    WrapperModal.InstanceModal.DialogAlert({head:"asasa",body:"asdassad"})
+                    WrapperModal.InstanceModal.DialogPrompt({head:"asasa",body:"asdassad"})
                 }}>click</Button>
             </Form>
         );
