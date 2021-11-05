@@ -7,24 +7,29 @@ import DialogData, {DialogButton} from "./DialogData";
 import "./styleDialog.css"
 import PromptBody from "./PromptBody"
 
+
+
 /**
  * обертка компонента модального окна, требуется точка монтирования
  */
  export default class WrapperModal{
      myRef= React.createRef();
-
+    static InstanceModal
     /**
      * ctor
-     * @param root точка монтирования Внимание, перед каждым запросом, точка монтирования размонтируется,
      * ( другие данные в DOM в этой точке могут исчезнуть)
      */
-    constructor(root) {
-        this._root = root;
+    constructor() {
+
+        WrapperModal.InstanceModal=this;
     }
 
     extracted(dialogData) {
-         const root = document.getElementById(this._root);
-         ReactDOM.unmountComponentAtNode(root);//todo размонтирование точки
+        const root = document.createElement('div');
+        root.style.display = 'contents';
+         //const root = document.getElementById(this._root);
+         //ReactDOM.unmountComponentAtNode(root);//todo размонтирование точки
+
          ReactDOM.render(<DialogIon ref={this.myRef} dialogData={dialogData}/>, root);
      }
 
@@ -188,10 +193,15 @@ import PromptBody from "./PromptBody"
 
 
  }
+
+
+ export const DialogContext = React.createContext();
 /*
  Компонент асинхронного вызова диалога
  */
 class DialogIon extends Component{
+
+
 
      constructor(props) {
          super(props);
@@ -202,7 +212,9 @@ class DialogIon extends Component{
              isShow:false//props.dialogData?._isShow??true,
 
 
+
          }
+         this.self=this;
          this.modalAtr=props.dialogData.modalAtr;// атрибуты для модального диалога
          this.refForm=undefined;
          this.myRef= React.createRef();
@@ -210,10 +222,17 @@ class DialogIon extends Component{
          this.promiseInfo = {};
          this.dialogType="none";
          this.icon=props.dialogData?._icon??null;
+         this.innerValidate=undefined
+         this.innerGetData=undefined;
+
 
 
 
      }
+     Assa(){
+         alert(33)
+     }
+
     show = async (type) => {
         this.dialogType=type;
         return new Promise((resolve, reject) => {
@@ -253,8 +272,8 @@ class DialogIon extends Component{
 
                      const ss=this.buttonModeAction?.modeId??-1;
                      if(ss!==-1){
-                         if(global.refform.validate(ss)===true){  //todo внимание тут магия вызова снаружи
-                             const res=global.refform.getData(ss);//todo внимание тут магия вызова снаружи
+                         if(this.innerValidate()===true){  //todo внимание тут магия вызова снаружи
+                             const res=this.innerGetData(ss);//todo внимание тут магия вызова снаружи
                              const ok=ss!==-1;
                              resolve(new MyResolve({ok:ok,modeId:ss,button:this.buttonModeAction,formData:res}))
                              this.setState({isShow:false})
@@ -305,8 +324,9 @@ class DialogIon extends Component{
          return(
 
 
+             <DialogContext.Provider value={{validate:(v)=>{this.innerValidate=v},getdata:(v)=>{this.innerGetData=v}}}>
              <Modal ref={this.myRef}
-                    size={this.modalAtr.size}
+                    size={this.modalAtr.size} as="section"
                     fullscreen={this.modalAtr.fullscree}
                     centered={this.modalAtr.centered}
                     animation={this.modalAtr.animation}
@@ -328,7 +348,7 @@ class DialogIon extends Component{
                      {this.renderIcon()}
                      <Modal.Title>{this.state.head}</Modal.Title>
                  </Modal.Header>
-                 <Modal.Body >
+                 <Modal.Body  >
 
 
                      {this.checkBody(this.state.body)}
@@ -349,10 +369,12 @@ class DialogIon extends Component{
 
                  </Modal.Footer>
              </Modal>
+             </DialogContext.Provider>
          );
      }
 
  }
+
 export class MyResolve{
      ok;
      modeId;
@@ -365,4 +387,5 @@ export class MyResolve{
         this.formData=formData;
     }
  }
+
 

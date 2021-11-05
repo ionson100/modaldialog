@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import { Form, Row} from "react-bootstrap";
-import ReactDOM from "react-dom"
+
 
 export default  class PromptBody extends Component{
 
@@ -20,9 +20,9 @@ export default  class PromptBody extends Component{
         this.myRef1 = React.createRef()
 
         //todo внимание тут магия вызова снаружи
-        global.refform=this;
-        this.validate.bind(this)
-        this.getData.bind(this)
+       // global.refform=this;
+       // this.validate.bind(this)
+       // this.getData.bind(this)
 
 
     }
