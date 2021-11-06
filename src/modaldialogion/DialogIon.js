@@ -3,123 +3,114 @@ import React, {Component} from "react";
 import {Button, Image} from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal'
 import * as ReactDOM from "react-dom";
-import DialogData, {DialogButton} from "./DialogData";
 import "./styleDialog.css"
-import PromptBody from "./PromptBody"
-import { v4 as uuidv4 } from 'uuid';
-
+import {v4 as uuidv4} from 'uuid';
 
 
 /**
  * обертка компонента модального окна, требуется точка монтирования
  */
- class WrapperModal{
-     myRef= React.createRef();
+export class WrapperModal {
+    myRef = React.createRef();
     static InstanceModal
+
     /**
      * ctor
      * ( другие данные в DOM в этой точке могут исчезнуть)
      */
     constructor() {
 
-        WrapperModal.InstanceModal=this;
+        WrapperModal.InstanceModal = this;
     }
 
     extracted(dialogData) {
         const root = document.createElement('div');
         root.style.display = 'contents';
-         //const root = document.getElementById(this._root);
-         //ReactDOM.unmountComponentAtNode(root);//todo размонтирование точки
+        //const root = document.getElementById(this._root);
+        //ReactDOM.unmountComponentAtNode(root);//todo размонтирование точки
 
-         ReactDOM.render(<DialogIon ref={this.myRef} dialogData={dialogData}/>, root);
-     }
+        ReactDOM.render(<DialogIon ref={this.myRef} dialogData={dialogData}/>, root);
+    }
 
     /**
      * получение аттрибутов модального диалога со значениями по умолчанию
      * @param o параметры компонента
      * @returns {{size: *, centered, fullscree, dialogClassName: *, contentClassName: *, scrollable, animation}}
      */
-     getModalAttributes(o){
-       return {
-            size:o.size,
-            fullscree:o.fullscree??false,
-            centered:o.centered??false,
-            animation:o.animation??true,
-            dialogClassName:o.dialogClassName,
-            contentClassName:o.contentClassName,
-            scrollable:o.scrollable??true
+    getModalAttributes(o) {
+        return {
+            size: o.size,
+            fullscree: o.fullscree ?? false,
+            centered: o.centered ?? false,
+            animation: o.animation ?? true,
+            dialogClassName: o.dialogClassName,
+            contentClassName: o.contentClassName,
+            scrollable: o.scrollable ?? true
         }
-     }
- }
-
-
-
+    }
+}
 
 
 /*
  Компонент асинхронного вызова диалога
  */
-class DialogIon extends Component{
+class DialogIon extends Component {
     static refParent;
 
 
+    constructor(props) {
+        super(props);
+        this.moduleIdCore = uuidv4()
+        this.checkGlobal()
 
-     constructor(props) {
-         super(props);
-         this.moduleIdCore=uuidv4()
-         this.checkGlobal()
-
-         this.state={
-             head:props.dialogData?._head??"no date",
-             body:props.dialogData?._body??"no date",
-             buttons:props.dialogData?._buttons??[],
-             isShow:false//props.dialogData?._isShow??true,
-
+        this.state = {
+            head: props.dialogData?._head ?? "no date",
+            body: props.dialogData?._body ?? "no date",
+            buttons: props.dialogData?._buttons ?? [],
+            isShow: false//props.dialogData?._isShow??true,
 
 
-         }
+        }
 
-         this.modalAtr=props.dialogData.modalAtr;// атрибуты для модального диалога
+        this.modalAtr = props.dialogData.modalAtr;// атрибуты для модального диалога
 
-         this.myRef= React.createRef();
-         this.buttonModeAction=undefined;// копка которую нажали, закрытие по кресту odeId=-1
-         this.promiseInfo = {};
-         this.dialogType="none";
-         this.icon=props.dialogData?._icon??null;
-         this.innerValidate=undefined
-         this.innerGetData=undefined;
-         this.myRefFocus = React.createRef()
-
-
-
+        this.myRef = React.createRef();
+        this.buttonModeAction = undefined;// копка которую нажали, закрытие по кресту odeId=-1
+        this.promiseInfo = {};
+        this.dialogType = "none";
+        this.icon = props.dialogData?._icon ?? null;
+        this.innerValidate = undefined
+        this.innerGetData = undefined;
+        this.myRefFocus = React.createRef()
+        this.oldDialog = undefined
 
 
-     }
-     checkGlobal(){
-         if(!global.hostDialog){
-             global.hostDialog={
-                 oldDialog:undefined,
-                 currentDialog:undefined,
-                 moduleId:undefined
-             }
-         }
+    }
+
+    checkGlobal() {
+        if (!global.hostDialog) {
+            global.hostDialog = {
+
+                currentDialog: undefined,
+                moduleId: undefined
+            }
+        }
 
 
-         global.hostDialog.oldDialog=global.hostDialog.currentDialog
+        this.oldDialog = global.hostDialog.currentDialog
 
-         global.hostDialog.currentDialog=this;
-         console.log("old",global.hostDialog.oldDialog)
-         console.log("current",global.hostDialog.currentDialog)
-         if(!global.hostDialog.moduleId){
-             global.hostDialog.moduleId=this.moduleIdCore;
-             console.log("init",global.hostDialog.moduleId,"  ",this.moduleIdCore)
-         }
-     }
-
+        global.hostDialog.currentDialog = this;
+        console.log("old", this.oldDialog)
+        console.log("current", global.hostDialog.currentDialog)
+        if (!global.hostDialog.moduleId) {
+            global.hostDialog.moduleId = this.moduleIdCore;
+            console.log("init", global.hostDialog.moduleId, "  ", this.moduleIdCore)
+        }
+    }
 
 
     show = async (type) => {
-        this.dialogType=type;
+        this.dialogType = type;
         return new Promise((resolve, reject) => {
             this.promiseInfo = {
                 resolve,
@@ -130,15 +121,15 @@ class DialogIon extends Component{
             });
         });
     };
+
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if(nextState.isShow===false){
-            console.log(global.hostDialog.moduleId,"  ",this.moduleIdCore)
-            if(global.hostDialog.moduleId===this.moduleIdCore){
-                global.hostDialog.currentDialog=undefined;
-                global.hostDialog.oldDialog=undefined;
-                global.hostDialog.moduleId=undefined;
-            }else{
-                global.hostDialog.currentDialog=global.hostDialog.oldDialog;
+        if (nextState.isShow === false) {
+            console.log(global.hostDialog.moduleId, "  ", this.moduleIdCore)
+            if (global.hostDialog.moduleId === this.moduleIdCore) {
+                global.hostDialog.currentDialog = undefined;
+                global.hostDialog.moduleId = undefined;
+            } else {
+                global.hostDialog.currentDialog = this.oldDialog;
             }
 
 
@@ -146,213 +137,184 @@ class DialogIon extends Component{
         return true
 
     }
-    checkValidateForm(b){
-        if(this.innerValidate){
+
+    checkValidateForm(b) {
+        if (this.innerValidate) {
             return this.innerValidate(b)
-        }else {
+        } else {
             return true;
         }
     }
-    checkGetDataForm(b){
-        if(this.innerGetData) {
+
+    checkGetDataForm(b) {
+        if (this.innerGetData) {
             return this.innerGetData(b)
-        }else {
-            return {data:"Base data body content"}
+        } else {
+            return {data: "Base data body content"}
         }
     }
 
 
-    onClick=()=>{
+    onClick = () => {
 
-         let { resolve, reject } = this.promiseInfo;
-         try{
-             switch (this.dialogType){
-                 case "none":{
-                     resolve(new MyResolve({button:this.buttonModeAction}))
-                     this.setState({isShow:false})
+        let {resolve, reject} = this.promiseInfo;
+        try {
+            switch (this.dialogType) {
+                case "none": {
+                    resolve(new MyResolve({button: this.buttonModeAction}))
+                    this.setState({isShow: false})
 
-                     break
-                 }
+                    break
+                }
 
-                 case "simple":{
-                     const ss=this.buttonModeAction?.modeId??-1;
-                     const ok=ss!==-1;
-                     resolve(new MyResolve({ok:ok,modeId:ss,button:this.buttonModeAction}))
-                     this.setState({isShow:false})
-                     break
-                 }
-
-
-                 case "form":{
-
-                     const ss=this.buttonModeAction?.modeId??-1;
-                     if(ss!==-1){
-                         if(this.checkValidateForm(ss)===true){  //todo внимание тут магия вызова снаружи
-                             const res=this.checkGetDataForm(ss);//todo внимание тут магия вызова снаружи
-                             const ok=ss!==-1;
-                             resolve(new MyResolve({ok:ok,modeId:ss,button:this.buttonModeAction,formData:res}))
-                             this.setState({isShow:false})
-                         }
-                     }else{
-                         const ok=ss!==-1;
-                         resolve(new MyResolve({ok:ok,modeId:ss,button:this.buttonModeAction}))
-                         this.setState({isShow:false})
-                     }
-                     break
-                 }
-                 default:{
-
-                     const msg=`Не могу обработать тип диалога: ${this.dialogType} type {simple,form,}`
-                     console.error(msg)
-                     reject(msg)
-                     this.setState({isShow:false})
-
-                 }
-
-             }
-         }catch (ex){
-             console.error(ex)
-             reject(ex)
-             this.setState({isShow:false})
-         }
+                case "simple": {
+                    const ss = this.buttonModeAction?.modeId ?? -1;
+                    const ok = ss !== -1;
+                    resolve(new MyResolve({ok: ok, modeId: ss, button: this.buttonModeAction}))
+                    this.setState({isShow: false})
+                    break
+                }
 
 
+                case "form": {
 
-     }
+                    const ss = this.buttonModeAction?.modeId ?? -1;
+                    if (ss !== -1) {
+                        if (this.checkValidateForm(ss) === true) {  //todo внимание тут магия вызова снаружи
+                            const res = this.checkGetDataForm(ss);//todo внимание тут магия вызова снаружи
+                            const ok = ss !== -1;
+                            resolve(new MyResolve({ok: ok, modeId: ss, button: this.buttonModeAction, formData: res}))
+                            this.setState({isShow: false})
+                        }
+                    } else {
+                        const ok = ss !== -1;
+                        resolve(new MyResolve({ok: ok, modeId: ss, button: this.buttonModeAction}))
+                        this.setState({isShow: false})
+                    }
+                    break
+                }
+                default: {
+
+                    const msg = `Не могу обработать тип диалога: ${this.dialogType} type {simple,form,}`
+                    console.error(msg)
+                    reject(msg)
+                    this.setState({isShow: false})
+
+                }
+
+            }
+        } catch (ex) {
+            console.error(ex)
+            reject(ex)
+            this.setState({isShow: false})
+        }
 
 
+    }
 
-     checkBody(b){
-             return b;
-     }
-     renderIcon(){
-         if(this.icon){
-             if(typeof this.icon==="string"){
-                 this.icon= <Image src={this.icon} height={40}   />;
-             }
-             return (<div className="imageDialogion" style={{marginLeft:"10px",marginRight:"10px"}} > {this.icon}</div>);
-         }
-     }
-     checkButtonFocus(b,i){
-        if(b.isFocus ===true){
-            return ( <Button key={i} ref={this.myRefFocus} variant={b.variant} onClick={()=>{
-                this.buttonModeAction=b;
+
+    checkBody(b) {
+        return b;
+    }
+
+    renderIcon() {
+        if (this.icon) {
+            if (typeof this.icon === "string") {
+                this.icon = <Image src={this.icon} height={40}/>;
+            }
+            return (
+                <div className="imageDialogion" style={{marginLeft: "10px", marginRight: "10px"}}> {this.icon}</div>);
+        }
+    }
+
+    checkButtonFocus(b, i) {
+        if (b.isFocus === true) {
+            return (<Button key={i} ref={this.myRefFocus} variant={b.variant} onClick={() => {
+                this.buttonModeAction = b;
                 this.onClick(this)
             }} data-mode-id={b.modeId}>
                 {b.name}
             </Button>);
-        }else{
-            return ( <Button key={i}  variant={b.variant} onClick={()=>{
-                this.buttonModeAction=b;
+        } else {
+            return (<Button key={i} variant={b.variant} onClick={() => {
+                this.buttonModeAction = b;
                 this.onClick(this)
             }} data-mode-id={b.modeId}>
                 {b.name}
             </Button>);
         }
-     }
-     componentDidMount() {
-         setTimeout(() => {
-             this.myRefFocus.current?.focus();
-         }, 1);
+    }
 
-     }
+    componentDidMount() {
+        setTimeout(() => {
+            this.myRefFocus.current?.focus();
+        }, 1);
+
+    }
 
     render() {
 
-         return(
+        return (
 
 
+            <Modal ref={this.myRef}
+                   size={this.modalAtr.size} as="section"
+                   fullscreen={this.modalAtr.fullscree}
+                   centered={this.modalAtr.centered}
+                   animation={this.modalAtr.animation}
+                   dialogClassName={this.modalAtr.dialogClassName}
+                   contentClassName={this.modalAtr.contentClassName}
+                   scrollable={this.modalAtr.scrollable}
 
-             <Modal ref={this.myRef}
-                    size={this.modalAtr.size} as="section"
-                    fullscreen={this.modalAtr.fullscree}
-                    centered={this.modalAtr.centered}
-                    animation={this.modalAtr.animation}
-                    dialogClassName={this.modalAtr.dialogClassName}
-                    contentClassName={this.modalAtr.contentClassName}
-                    scrollable={this.modalAtr.scrollable}
+                   show={this.state.isShow}
+                   onHide={() => {
+                       this.buttonModeAction = null;
+                       this.onClick(this)
+                   }}
+                   backdrop="static"
+                   keyboard={true}
 
-                    show={this.state.isShow}
-                 onHide={()=>{
-                     this.buttonModeAction=null;
-                     this.onClick(this)
-                 }}
-                 backdrop="static"
-                 keyboard={true}
+            >
 
-             >
+                <Modal.Header closeButton className="headerDialogion">
+                    {this.renderIcon()}
+                    <Modal.Title>{this.state.head}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {this.checkBody(this.state.body)}
+                </Modal.Body>
+                <Modal.Footer className="footerDialogion">
+                    {
+                        this.state.buttons.map((b, i) => {
+                            return (
+                                this.checkButtonFocus(b, i)
+                            );
+                        })
+                    }
 
-                 <Modal.Header closeButton className="headerDialogion">
-                     {this.renderIcon()}
-                     <Modal.Title>{this.state.head}</Modal.Title>
-                 </Modal.Header>
-                 <Modal.Body  >
-                     {this.checkBody(this.state.body)}
-                 </Modal.Body>
-                 <Modal.Footer className="footerDialogion">
-                     {
-                         this.state.buttons.map((b,i)=>{
-                             return(
-                                 this.checkButtonFocus(b,i)
-                             );
-                         })
-                     }
+                </Modal.Footer>
+            </Modal>
 
-                 </Modal.Footer>
-             </Modal>
+        );
+    }
 
-         );
-     }
+}
 
- }
+class MyResolve {
+    ok;
+    modeId;
+    button;
+    formData;
 
- class MyResolve{
-     ok;
-     modeId;
-     button;
-     formData;
-    constructor({ok=false,modeId=-1,button=undefined,formData=undefined}) {
+    constructor({ok = false, modeId = -1, button = undefined, formData = undefined}) {
         this.ok = ok;
         this.modeId = modeId;
         this.button = button;
-        this.formData=formData;
+        this.formData = formData;
     }
- }
-
- export async function  DialogModalAsync({head,body,icon,listButton=[],size,fullscreen,centered,animation,dialogClassName,contentClassName,scrollable}) {
-    const  wrap=new WrapperModal();
-    const props=new DialogData(head,body,icon)
-    listButton.map((b)=>{
-        props.pushButton(b)
-        return false
-    })
-    let type="simple";
-    if(React.isValidElement(body)){
-        type="form"
-    }
-
-    props.modalAtr=wrap.getModalAttributes(arguments[0])
-    wrap.extracted(props);
-    const modal = wrap.myRef.current;
-    return await modal.show(type);
 }
 
- export async function DialogAlert({head,body,icon}) {
-  const s=[new DialogButton("Close",-1,"primary",true)]
-   return  DialogModalAsync({head:head,body:body,listButton:s,icon:icon})
-}
 
-export async  function DialogPrompt({head,body,icon,valueForPrompt}) {
-    const s=[new DialogButton("Close",-1,"primary",true),new DialogButton("Ok",1,"primary")]
-    const p={label:body,value:valueForPrompt}
-    const _body=<PromptBody data={p}/>
-    return  DialogModalAsync({head:head,body:_body,listButton:s,icon:icon})
-}
-
-export async function DialogConfirm({head,body,icon}) {
-    const s=[new DialogButton("Close",-1,"primary",true),new DialogButton("Ok",1,"primary")]
-    return  DialogModalAsync({head:head,body:body,listButton:s,icon:icon})
-}
 
 
 

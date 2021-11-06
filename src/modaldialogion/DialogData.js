@@ -1,7 +1,7 @@
 /**
  * данные для показа диалогового окна.
  */
-export default class DialogData{
+ export class DialogData{
 
 
     /**
@@ -43,7 +43,7 @@ export default class DialogData{
 /**
  * кнопка диалога
  */
- export class DialogButton{
+ export  class DialogButton{
 
     /**
      *
