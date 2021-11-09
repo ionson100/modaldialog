@@ -34,6 +34,7 @@ export default  class PromptBody extends BaseDialog{
      * @param modeId modeId нажатой кнопки
      * @returns {boolean} true - данные хорошие, false- данные плохие
      */
+    /* eslint-disable */
     validate(modeId){
         const form = this.myRef.current;
         if (form.checkValidity() === false) {
@@ -44,6 +45,7 @@ export default  class PromptBody extends BaseDialog{
         return true;
 
     };
+    /* eslint-enable */
     componentDidMount() {
         setTimeout(() => {
             this.myRef1.current.focus();
@@ -59,7 +61,7 @@ export default  class PromptBody extends BaseDialog{
      * @param modeId  modeId нажатой кнопки
      * @returns {{name, description, lang}}
      */
-    getData=(modeId)=>{
+    getData(modeId){
         return {
             modeId:modeId,
             value:this.myRef1.current.value,

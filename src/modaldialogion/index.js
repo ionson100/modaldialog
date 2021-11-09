@@ -23,6 +23,7 @@ import {WrapperModal} from "./DialogIon";
  * @returns {Promise<*>}
  * @constructor
  */
+/* eslint-disable */
 export async function DialogModalAsync({head, body, icon, listButton = [], size,
                                            fullscreen, centered, animation, dialogClassName, contentClassName,
                                            scrollable,dialogAs,backdrop,keyboard}) {
@@ -42,6 +43,7 @@ export async function DialogModalAsync({head, body, icon, listButton = [], size,
     const modal = wrap.myRef.current;
     return await modal.show(type);
 }
+/* eslint-enable */
 
 /**
  * Вызов окна предупреждения
@@ -51,10 +53,12 @@ export async function DialogModalAsync({head, body, icon, listButton = [], size,
  * @returns {Promise<*>}
  * @constructor
  */
+/* eslint-disable */
 export async function DialogAlert({head, body, icon}) {
     const s = [new DialogButton("Close", -1, "primary", true)]
     return DialogModalAsync({head: head, body: body, listButton: s, icon: icon})
 }
+/* eslint-enable */
 
 /**
  * Вызов диалога с полем ввода

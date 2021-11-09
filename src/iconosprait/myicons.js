@@ -2,11 +2,9 @@ import Icons  from "./icons2.svg"
 
 
 import PropTypes from 'prop-types';
-
-const Icon = ({ name, color, size }) => (
-    <svg  fill={color} width={size} height={size}>
-        <use xlinkHref={`${Icons}#icon-${name}`} />
-    </svg>
+/* eslint-disable */
+const Icon = ({ name }) => (
+    <use xlinkHref={`${Icons}#icon-${name}`} />
 );
 
 Icon.propTypes = {
@@ -14,5 +12,5 @@ Icon.propTypes = {
     color: PropTypes.string,
     size: PropTypes.number
 };
-
+/* eslint-enable */
 export default Icon;

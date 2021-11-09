@@ -22,7 +22,9 @@ export class FormNameF extends BaseDialog {
         this.myRef1 = React.createRef()
         this.myRef2 = React.createRef()
         this.myRef3 = React.createRef()
-        //todo внимание тут магия вызова снаружи
+      
+
+        // eslint-disable-next-line no-undef
         global.refform = this;
         this.validate.bind(this)
         this.getData.bind(this)
@@ -40,6 +42,7 @@ export class FormNameF extends BaseDialog {
      * @param modeId modeId нажатой кнопки
      * @returns {boolean} true - данные хорошие, false- данные плохие
      */
+    /* eslint-disable */
     validate(modeId) {
 
         const form = this.myRef.current;
@@ -51,13 +54,14 @@ export class FormNameF extends BaseDialog {
         return true;
 
     };
+    /* eslint-enable */
 
     /**
      * получение данных с формы
      * @param modeId  modeId нажатой кнопки
      * @returns {{name, description, lang}}
      */
-    getData = (modeId) => {
+    getData (modeId){
         return {
             modeId: modeId,
             lang: this.myRef1.current.value,

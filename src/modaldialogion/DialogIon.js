@@ -11,16 +11,12 @@ import {v4 as uuidv4} from 'uuid';
  * обертка компонента модального окна, требуется точка монтирования
  */
 export class WrapperModal {
-    myRef = React.createRef();
-    static InstanceModal
-
     /**
      * ctor
      * ( другие данные в DOM в этой точке могут исчезнуть)
      */
     constructor() {
-
-        WrapperModal.InstanceModal = this;
+        this.myRef = React.createRef();
     }
 
     extracted(dialogData) {
@@ -58,8 +54,6 @@ export class WrapperModal {
  Компонент асинхронного вызова диалога
  */
 class DialogIon extends Component {
-    static refParent;
-
 
     constructor(props) {
         super(props);
@@ -72,19 +66,20 @@ class DialogIon extends Component {
 
 
         }
+        const p=props;
 
-        this.head= props.dialogData?._head ?? "no date";
+        this.head= p.dialogData?._head ?? "no date";
 
-        this.body= props.dialogData?._body ?? "no date";
-        this.buttons=props.dialogData?._buttons ?? [];
+        this.body= p.dialogData?._body ?? "no date";
+        this.buttons=p.dialogData?._buttons ?? [];
 
-        this.modalAtr = props.dialogData.modalAtr;// атрибуты для модального диалога
+        this.modalAtr = p.dialogData.modalAtr;// атрибуты для модального диалога
 
         this.myRef = React.createRef();
         this.buttonModeAction = undefined;// копка которую нажали, закрытие по кресту odeId=-1
         this.promiseInfo = {};
         this.dialogType = "none";
-        this.icon = props.dialogData?._icon ?? null;
+        this.icon = p.dialogData?._icon ?? null;
         this.innerValidate = undefined
         this.innerGetData = undefined;
         this.myRefFocus = React.createRef()
@@ -95,7 +90,9 @@ class DialogIon extends Component {
 
 
     checkGlobal() {
+        // eslint-disable-next-line no-undef
         if (!global.hostDialog) {
+            // eslint-disable-next-line no-undef
             global.hostDialog = {
 
                 currentDialog: undefined,
@@ -104,19 +101,25 @@ class DialogIon extends Component {
         }
 
 
+        // eslint-disable-next-line no-undef
         this.oldDialog = global.hostDialog.currentDialog
 
+        // eslint-disable-next-line no-undef
         global.hostDialog.currentDialog = this;
         console.log("old", this.oldDialog)
+        // eslint-disable-next-line no-undef
         console.log("current", global.hostDialog.currentDialog)
+        // eslint-disable-next-line no-undef
         if (!global.hostDialog.moduleId) {
+            // eslint-disable-next-line no-undef
             global.hostDialog.moduleId = this.moduleIdCore;
+            // eslint-disable-next-line no-undef
             console.log("init", global.hostDialog.moduleId, "  ", this.moduleIdCore)
         }
     }
 
 
-    show = async (type) => {
+    async show(type){
         this.dialogType = type;
         return new Promise((resolve, reject) => {
             this.promiseInfo = {
@@ -127,9 +130,10 @@ class DialogIon extends Component {
                 isShow: true
             });
         });
-    };
+    }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
+    /* eslint-disable */
+    shouldComponentUpdate(nextProps, nextState) {
         if (nextState.isShow === false) {
             console.log(global.hostDialog.moduleId, "  ", this.moduleIdCore)
             if (global.hostDialog.moduleId === this.moduleIdCore) {
@@ -162,7 +166,7 @@ class DialogIon extends Component {
     }
 
 
-    onClick = () => {
+    onClick(){
 
         let {resolve, reject} = this.promiseInfo;
         try {
@@ -312,10 +316,6 @@ class DialogIon extends Component {
 }
 
 class MyResolve {
-    ok;
-    modeId;
-    button;
-    formData;
 
     constructor({ok = false, modeId = -1, button = undefined, formData = undefined}) {
         this.ok = ok;
