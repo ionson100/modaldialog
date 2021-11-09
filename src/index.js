@@ -16,12 +16,15 @@ import {DialogAlert, DialogPrompt, DialogConfirm, DialogModalAsync} from "./moda
 
 const bt1 = document.getElementById('bt_1');
 const span = document.getElementById('span');
+function Head(){
+    return (<div className="h-50"><h6>siduisudu</h6></div>);
+}
 bt1.onclick = () => {
 
     span.innerHTML = ""
 
     DialogAlert(
-        {head: "Simple Dialog", body: "Body Dialog", icon: <Icon name="info" color="red" size={40}/>}).then(value => {
+        {head: <Head/>, body: "Body Dialog", icon: <Icon name="info" color="red" size={40}/>}).then(value => {
         span.innerHTML = JSON.stringify(value);
     }).catch(reason => {
         console.error(reason)

@@ -4,7 +4,7 @@ import {Component} from "react";
 
 export  default class BaseDialog extends Component {
         constructor(props) {
-        super(undefined);
+        super(props);
         setTimeout(() => {
             global.hostDialog.currentDialog.innerValidate=this.validate.bind(this)
             global.hostDialog.currentDialog.innerGetData=this.getData.bind(this)
@@ -12,12 +12,11 @@ export  default class BaseDialog extends Component {
 
     }
 
-
     validate(button){
-
+            return true;
     }
     getData(button){
-
+            return {body:"none"}
     }
 }
 

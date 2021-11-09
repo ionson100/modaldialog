@@ -20,10 +20,7 @@ export default  class PromptBody extends BaseDialog{
         this.myRef = React.createRef()
         this.myRef1 = React.createRef()
 
-        //todo внимание тут магия вызова снаружи
-       // global.refform=this;
-       // this.validate.bind(this)
-       // this.getData.bind(this)
+
 
 
     }
@@ -38,10 +35,6 @@ export default  class PromptBody extends BaseDialog{
      * @returns {boolean} true - данные хорошие, false- данные плохие
      */
     validate(modeId){
-
-
-
-
         const form = this.myRef.current;
         if (form.checkValidity() === false) {
             this.setValidated(true);
@@ -59,10 +52,7 @@ export default  class PromptBody extends BaseDialog{
 
 
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
 
-
-    }
 
     /**
      * получение данных с формы
@@ -72,9 +62,7 @@ export default  class PromptBody extends BaseDialog{
     getData=(modeId)=>{
         return {
             modeId:modeId,
-
             value:this.myRef1.current.value,
-
         }
     }
 

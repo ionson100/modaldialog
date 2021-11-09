@@ -15,7 +15,7 @@
         this._body = body;
         this._icon = icon;
         /*
-        списог кнопок для диалога {DialogButton} отображение слева на право
+        список кнопок для диалога {DialogButton} отображение слева на право
          */
         this._buttons=[];
         this.ref=undefined;
@@ -28,7 +28,6 @@
      */
     pushButton(button){
         this._buttons.push(button);
-
         return this;
     }
     /*
@@ -48,7 +47,7 @@
     /**
      *
      * @param name текст в копке
-     * @param modeId {number} идентификатор кнопки, для кнопки ок: = 1;
+     * @param modeId {number} идентификатор кнопки, для кнопки отмены или закрытия : = -1;
      * @param variant {string} стиль кнопки : https://react-bootstrap.github.io/components/buttons/
      * @param isFocus первоначальный фокус кнопки
      */

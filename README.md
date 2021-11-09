@@ -1,70 +1,120 @@
-# Getting Started with Create React App
+# Асинхронный модальный диалог
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Обертки для быстрого вызова
+```javascript
+/**
+ * Вызов окна предупреждения
+ * @param head заголовок окна строка или React Component
+ * @param body тело сообщения строка или React Component
+ * @param icon иконка для файла диалога, строка или React Component
+ * @returns {Promise<*>}
+ * @constructor
+ */
+export async function DialogAlert({head, body, icon}){}
+```
+```javascript
+/**
+ * Вызов диалога с полем ввода
+ * @param head head заголовок, строка или React Component
+ * @param body лейбл для поля ввода
+ * @param icon иконка для файла диалога, строка или React Component
+ * @param valueForPrompt значение по умолчанию для поля ввода
+ * @returns {Promise<*>}
+ * @constructor
+ */
+export async function DialogPrompt({head, body, icon, valueForPrompt}){}
+```
+```javascript
 
-## Available Scripts
+/**
+ * Вызов диалога соглашения
+ * @param head заголовок, строка или React Component
+ * @param body тело диалога строка или React Component ( тело должно наследовать класс BaseDialog ( переопределит validate и getData )
+ * @param icon иконка для файла диалога, строка или React Component
+ * @returns {Promise<*>}
+ * @constructor
+ */
+export async function DialogConfirm({head, body, icon}){}
+```
+вызов полного конструктора
+```javascript
+/**
+ *  Вызов модального диалога в режиме полного конструктора
+ *  параметры соответствия : https://react-bootstrap.github.io/components/modal/
+ * @param head head заголовок, строка или React Component
+ * @param body лейбл для поля ввода
+ * @param icon иконка для файла диалога, строка или React Component
+ * @param listButton массив кнопок
+ * @param size
+ * @param fullscreen
+ * @param centered
+ * @param animation
+ * @param dialogClassName
+ * @param contentClassName
+ * @param scrollable
+ * @param dialogAs
+ * @param backdrop
+ * @param keyboard
+ * @returns {Promise<*>}
+ * @constructor
+ */
+export async function DialogModalAsync({head, body, icon, listButton = [], size,
+                                           fullscreen, centered, animation, dialogClassName, contentClassName,
+                                           scrollable,dialogAs,backdrop,keyboard}){}
+```
+что нужно учесть,
+Параметр head: может быть строкой или JSX React Component
 
-In the project directory, you can run:
+Параметр body: может быть строкой или JSX React Component
+если это компонент , он должен быть классовым и наследоваться от BaseDialog
+он должен по желанию переопределять 2 метода validate и getDate
+validate проверяет корректность виденных данных, по умолчанию `true`;
+а getData возвращает объект формы, по умочанию : `{body:"none"}`
+массив кнопок задается объектами
+```javascript
+/**
+ * кнопка диалога
+ */
+ export  class DialogButton{
 
-### `npm start`
+    /**
+     *
+     * @param name текст в копке
+     * @param modeId {number} идентификатор кнопки, для кнопки отмены или закрытия : = -1;
+     * @param variant {string} стиль кнопки : https://react-bootstrap.github.io/components/buttons/
+     * @param isFocus первоначальный фокус кнопки
+     */
+    constructor(name,modeId=1,variant="primary",isFocus=false) {
+        this.name = name;
+        this.variant = variant;
+        this.modeId = modeId;
+        this.isFocus=isFocus;
+    }
+}
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+промизе возврашает в случае успеха объект
+```javascript
+class MyResolve {
+    ok;
+    modeId;
+    button;
+    formData;
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    constructor({ok = false, modeId = -1, button = undefined, formData = undefined}) {
+        this.ok = ok;
+        /**
+         * идентификатор нажатой кнопки
+         * @type {number}
+         */
+        this.modeId = modeId;
+        this.button = button;
+        /**
+         * объект для пользовательского контента
+         * @type {undefined}
+         */
+        this.formData = formData;
+    }
+}
+```

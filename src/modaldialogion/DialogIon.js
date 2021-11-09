@@ -40,12 +40,15 @@ export class WrapperModal {
     getModalAttributes(o) {
         return {
             size: o.size,
-            fullscree: o.fullscree ?? false,
+            fullscree: o.fullscree ,
             centered: o.centered ?? false,
             animation: o.animation ?? true,
             dialogClassName: o.dialogClassName,
             contentClassName: o.contentClassName,
-            scrollable: o.scrollable ?? true
+            scrollable: o.scrollable ?? true,
+            dialogAs:o.dialogAs,
+            backdrop:o.backdrop??"static",
+            keyboard:o.keyboard??true,
         }
     }
 }
@@ -64,13 +67,16 @@ class DialogIon extends Component {
         this.checkGlobal()
 
         this.state = {
-            head: props.dialogData?._head ?? "no date",
-            body: props.dialogData?._body ?? "no date",
-            buttons: props.dialogData?._buttons ?? [],
+
             isShow: false//props.dialogData?._isShow??true,
 
 
         }
+
+        this.head= props.dialogData?._head ?? "no date";
+
+        this.body= props.dialogData?._body ?? "no date";
+        this.buttons=props.dialogData?._buttons ?? [];
 
         this.modalAtr = props.dialogData.modalAtr;// атрибуты для модального диалога
 
@@ -86,6 +92,7 @@ class DialogIon extends Component {
 
 
     }
+
 
     checkGlobal() {
         if (!global.hostDialog) {
@@ -223,7 +230,7 @@ class DialogIon extends Component {
                 this.icon = <Image src={this.icon} height={40}/>;
             }
             return (
-                <div className="imageDialogion" style={{marginLeft: "10px", marginRight: "10px"}}> {this.icon}</div>);
+                <div className="imageDialogion" > {this.icon}</div>);
         }
     }
 
@@ -252,40 +259,44 @@ class DialogIon extends Component {
 
     }
 
+    getHeaderDialog(){
+       if(!this.head&&!this.icon){
+           return("");
+       }else{
+           return (<Modal.Header closeButton className="headerDialogion">
+               {this.renderIcon()}
+               <Modal.Title>{this.head}</Modal.Title>
+           </Modal.Header>);
+       }
+
+    }
+
     render() {
 
         return (
 
-
+            // dialogAs:o.dialogAs??"ModalDialog",
+            // backdrop:o.backdrop??true,
+            // keyboard:o.keyboard??true,
             <Modal ref={this.myRef}
-                   size={this.modalAtr.size} as="section"
-                   fullscreen={this.modalAtr.fullscree}
-                   centered={this.modalAtr.centered}
-                   animation={this.modalAtr.animation}
-                   dialogClassName={this.modalAtr.dialogClassName}
-                   contentClassName={this.modalAtr.contentClassName}
-                   scrollable={this.modalAtr.scrollable}
-
+                   {...this.modalAtr}
                    show={this.state.isShow}
                    onHide={() => {
                        this.buttonModeAction = null;
                        this.onClick(this)
                    }}
-                   backdrop="static"
-                   keyboard={true}
+                   as="section"
 
             >
 
-                <Modal.Header closeButton className="headerDialogion">
-                    {this.renderIcon()}
-                    <Modal.Title>{this.state.head}</Modal.Title>
-                </Modal.Header>
+                {this.getHeaderDialog()}
+
                 <Modal.Body>
-                    {this.checkBody(this.state.body)}
+                    {this.checkBody(this.body)}
                 </Modal.Body>
                 <Modal.Footer className="footerDialogion">
                     {
-                        this.state.buttons.map((b, i) => {
+                        this.buttons.map((b, i) => {
                             return (
                                 this.checkButtonFocus(b, i)
                             );
@@ -308,8 +319,16 @@ class MyResolve {
 
     constructor({ok = false, modeId = -1, button = undefined, formData = undefined}) {
         this.ok = ok;
+        /**
+         * идентификатор нажатой кнопки
+         * @type {number}
+         */
         this.modeId = modeId;
         this.button = button;
+        /**
+         * объект для пользовательского контента
+         * @type {undefined}
+         */
         this.formData = formData;
     }
 }
