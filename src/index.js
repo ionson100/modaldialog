@@ -8,7 +8,7 @@ import * as ReactDOM from "react-dom";
 import React from "react";
 import Clock from "./clock/Clock";
 import {FormNameF} from "./formbody/FormName"
-import Icon from "./iconosprait/myicons"
+import { FcDeleteDatabase,FcGallery,FcFactory,FcMultipleSmartphones } from "react-icons/fc";
 
 
 import {DialogAlert, DialogPrompt, DialogConfirm, DialogModalAsync} from "./modaldialogion/index"
@@ -24,7 +24,11 @@ bt1.onclick = () => {
     span.innerHTML = ""
 
     DialogAlert(
-        {head: <Head/>, body: "Body Dialog", icon: <Icon name="info" color="red" size={40}/>}).then(value => {
+        {
+            head: <Head/>,
+            body: "Body Dialog",
+            icon: <FcDeleteDatabase size={40}/>
+        }).then(value => {
         span.innerHTML = JSON.stringify(value);
     }).catch(reason => {
         console.error(reason)
@@ -33,7 +37,11 @@ bt1.onclick = () => {
 
 const bt2 = document.getElementById('bt_2');
 bt2.onclick = () => {
-    DialogConfirm({head: "close winows", body: "Закрыть диалог"}).then(value => {
+    span.innerHTML = ""
+    DialogConfirm({
+        head: "close winows",
+        body: "Закрыть диалог"
+    }).then(value => {
         span.innerHTML = JSON.stringify(value, null, 1);
     }).catch(reason => {
 
@@ -43,6 +51,7 @@ bt2.onclick = () => {
 
 const bt3 = document.getElementById('bt_3');
 bt3.onclick = () => {
+    span.innerHTML = ""
     selectionDialog("select dialog", "Выбрать тип закрытия").then(value => {
         span.innerHTML = `Нажали кнопку: ${JSON.stringify(value, null, 1)}`;
     }).catch(reason => {
@@ -54,6 +63,7 @@ bt3.onclick = () => {
 
 const bt5 = document.getElementById('bt_5');
 bt5.onclick = () => {
+    span.innerHTML = ""
     formDialog().then(value => {
         if (value) {
             const s = JSON.stringify(value, null, 1)
@@ -69,8 +79,11 @@ const bt6 = document.getElementById('bt_6');
 bt6.onclick = () => {
     span.innerHTML = ""
     DialogPrompt({
-        head: "Simple prompt Dialog", body: "Пож. введите текст", valueForPrompt: "my text", icon:
-            <Icon name="info" size={40}/>, centered: true
+        head: "Simple prompt Dialog",
+        body: "Пож. введите текст",
+        valueForPrompt: "my text",
+        icon: <FcGallery size={40}/>,
+        centered: true
     }).then(value => {
         span.innerHTML = JSON.stringify(value);
     }).catch(reason => {
@@ -83,8 +96,10 @@ bt6.onclick = () => {
     bt11.onclick = () => {
         span.innerHTML = ""
         DialogAlert({
-            head: "Simple Dialog", body: "Body Dialog center", icon:
-                <Icon name="info" size={55}/>, centered: true
+            head: "Simple Dialog",
+            body: "Body Dialog center",
+            icon: <FcFactory size={40}/>,
+            centered: true
         }).then(value => {
             span.innerHTML = JSON.stringify(value, null, 1);
         }).catch(reason => {
@@ -98,10 +113,10 @@ bt6.onclick = () => {
         span.innerHTML = ""
 
         DialogAlert({
-                head: "Simple Dialog", body: "Body Dialog", icon:
-                    "./error_.svg"
+                head: "Simple Dialog",
+                body: "Body Dialog",
+                icon: "./error_.svg"
             }
-            // <Icon name="error-warning" color="red"  size={55} />
         ).then(value => {
             span.innerHTML = JSON.stringify(value, null, 1);
         }).catch(reason => {
@@ -113,10 +128,10 @@ bt6.onclick = () => {
     const bt13 = document.getElementById('bt_13');
     bt13.onclick = () => {
         span.innerHTML = ""
-
         DialogAlert({
-            head: "Simple Dialog", body: "Body Dialog", icon:
-                <Icon name="error-warning" color="#FFC433" size={55}/>
+            "head": "Simple Dialog",
+            "body": "Body Dialog",
+            "icon": <FcMultipleSmartphones size={40}/>
         }).then(value => {
             span.innerHTML = JSON.stringify(value, null, 1);
         }).catch(reason => {
@@ -130,8 +145,9 @@ bt6.onclick = () => {
         span.innerHTML = ""
 
         DialogAlert({
-            head: "Simple Dialog", body: "Body Dialog", icon:
-                <Icon name="form" size={55}/>
+            head: "Simple Dialog",
+            body: "Body Dialog",
+            icon: <FcDeleteDatabase size={40}/>
         }).then(value => {
             span.innerHTML = JSON.stringify(value, null, 1);
         }).catch(reason => {
@@ -145,8 +161,8 @@ bt6.onclick = () => {
         span.innerHTML = ""
 
         DialogAlert({
-            head: "Simple Dialog", body: "Body Dialog", icon:
-                <Icon name="confirm" color="#20A945" size={55}/>
+            head: "Simple Dialog",
+            body: "Body Dialog", icon: <FcMultipleSmartphones size={40}/>
         }).then(value => {
             span.innerHTML = JSON.stringify(value, null, 1);
         }).catch(reason => {
@@ -178,7 +194,11 @@ function selectionDialog(head, body) {
     s.push(new DialogButton("select 2", 2, "primary"))
     s.push(new DialogButton("select 3", 3, "primary"))
     s.push(new DialogButton("Close", -1, "danger", true))
-    return DialogModalAsync({head: head, body: body, listButton: s})
+    return DialogModalAsync({
+        head: head,
+        body: body,
+        icon:<FcMultipleSmartphones size={40}/>,
+        listButton: s})
 
 }
 
@@ -187,9 +207,14 @@ function formDialog() {
 
     const p = {name: "simple route", lang: "Ru", description: "tratata"}
     const _body = <FormNameF data={p}/>
-    const s = [];
-    s.push(new DialogButton("Save", 2, "primary"))
-    s.push(new DialogButton("Close", -1, "danger"))
-    return DialogModalAsync({head: "Описание маршрута", body: _body, listButton: s})
+    const s = [new DialogButton("Save", 2, "primary"),new DialogButton("Close", -1, "danger")];
+    s.push()
+    s.push()
+    return DialogModalAsync({
+        head: "Описание маршрута",
+        icon:<FcMultipleSmartphones size={40}/>,
+        body: _body,
+        listButton: s
+    })
 }
 

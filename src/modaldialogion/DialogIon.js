@@ -230,6 +230,7 @@ class DialogIon extends Component {
 
     renderIcon() {
         if (this.icon) {
+            console.log("reder icon",this.icon)
             if (typeof this.icon === "string") {
                 this.icon = <Image src={this.icon} height={40}/>;
             }
