@@ -12,8 +12,8 @@ import {hostDialog} from "./StorageDialog";
  * обертка компонента модального окна, требуется точка монтирования
  */
 export class WrapperModal {
-    myRef = React.createRef();
-    static InstanceModal
+
+
 
     /**
      * ctor
@@ -21,7 +21,8 @@ export class WrapperModal {
      */
     constructor() {
 
-        WrapperModal.InstanceModal = this;
+
+        this.myRef = React.createRef();
     }
 
     extracted(dialogData) {
@@ -56,7 +57,7 @@ export class WrapperModal {
  Компонент асинхронного вызова диалога
  */
 class DialogIon extends Component {
-    static refParent;
+
 
 
     constructor(props) {
@@ -64,6 +65,8 @@ class DialogIon extends Component {
         this.moduleIdCore = uuidv4()
         this.checkGlobal()
 
+
+        /* eslint-disable */
         this.state = {
             head: props.dialogData?._head ?? "no date",
             body: props.dialogData?._body ?? "no date",
@@ -72,6 +75,7 @@ class DialogIon extends Component {
 
 
         }
+
 
         this.modalAtr = props.dialogData.modalAtr;// атрибуты для модального диалога
 
@@ -84,7 +88,7 @@ class DialogIon extends Component {
         this.innerGetData = undefined;
         this.myRefFocus = React.createRef()
         this.oldDialog = undefined
-
+        /* eslint-enable */
 
     }
 
@@ -103,7 +107,7 @@ class DialogIon extends Component {
         }
     }
 
-
+    /* eslint-disable */
     show = async (type) => {
         this.dialogType = type;
         return new Promise((resolve, reject) => {
@@ -116,8 +120,9 @@ class DialogIon extends Component {
             });
         });
     };
+    /* eslint-enable */
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
+    shouldComponentUpdate(nextProps, nextState) {
         if (nextState.isShow === false) {
             console.log(hostDialog.moduleId, "  ", this.moduleIdCore)
             if (hostDialog.moduleId === this.moduleIdCore) {

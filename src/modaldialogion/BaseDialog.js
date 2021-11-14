@@ -4,7 +4,7 @@ import {hostDialog} from "./StorageDialog";
 
 
 export  default class BaseDialog extends Component {
-        constructor(props) {
+        constructor() {
         super(undefined);
         setTimeout(() => {
             hostDialog.currentDialog.innerValidate=this.validate.bind(this)
@@ -14,11 +14,13 @@ export  default class BaseDialog extends Component {
     }
 
 
-    validate(button){
-
+    validate(){
+ return true;
     }
-    getData(button){
-
+    getData(){
+ return {
+     data:'no data'
+ }
     }
 }
 

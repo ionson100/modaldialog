@@ -17,7 +17,7 @@ import {DialogAlert, DialogPrompt, DialogConfirm, DialogModalAsync} from "./moda
 const bt1 = document.getElementById('bt_1');
 const span = document.getElementById('span');
 function Head(){
-    return (<div className="h-50"><h6>siduisudu</h6></div>);
+    return (<div className="h-50"><h6>my title</h6></div>);
 }
 bt1.onclick = () => {
 
@@ -26,7 +26,7 @@ bt1.onclick = () => {
     DialogAlert(
         {
             head: <Head/>,
-            body: "Body Dialog",
+            body: "Body Dialog image",
             icon: <FcDeleteDatabase size={40}/>
         }).then(value => {
         span.innerHTML = JSON.stringify(value);
