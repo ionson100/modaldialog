@@ -1,27 +1,24 @@
 
 import {Component} from "react";
+import {hostDialog} from "./StorageDialog";
 
 
 export  default class BaseDialog extends Component {
         constructor(props) {
-        super(props);
+        super(undefined);
         setTimeout(() => {
-
-
-
-            // eslint-disable-next-line no-undef
-            global.hostDialog.currentDialog.innerValidate=this.validate.bind(this)
-            // eslint-disable-next-line no-undef
-            global.hostDialog.currentDialog.innerGetData=this.getData.bind(this)
+            hostDialog.currentDialog.innerValidate=this.validate.bind(this)
+            hostDialog.currentDialog.innerGetData=this.getData.bind(this)
         }, 1);
 
     }
 
-    validate(){
-            return true;
+
+    validate(button){
+
     }
-    getData(){
-            return {body:"none"}
+    getData(button){
+
     }
 }
 
