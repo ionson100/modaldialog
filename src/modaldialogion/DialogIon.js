@@ -275,14 +275,14 @@ class DialogIon extends Component {
 
                 <Modal.Header closeButton className="headerDialogion">
                     {this.renderIcon()}
-                    <Modal.Title>{this.state.head}</Modal.Title>
+                    <Modal.Title>{this.head}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {this.checkBody(this.state.body)}
+                    {this.checkBody(this.body)}
                 </Modal.Body>
                 <Modal.Footer className="footerDialogion">
                     {
-                        this.state.buttons.map((b, i) => {
+                        this.buttons.map((b, i) => {
                             return (
                                 this.checkButtonFocus(b, i)
                             );
