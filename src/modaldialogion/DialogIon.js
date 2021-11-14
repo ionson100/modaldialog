@@ -28,8 +28,7 @@ export class WrapperModal {
     extracted(dialogData) {
         const root = document.createElement('div');
         root.style.display = 'contents';
-        //const root = document.getElementById(this._root);
-        //ReactDOM.unmountComponentAtNode(root);//todo размонтирование точки
+
 
         ReactDOM.render(<DialogIon ref={this.myRef} dialogData={dialogData}/>, root);
     }
@@ -68,16 +67,16 @@ class DialogIon extends Component {
 
         /* eslint-disable */
         this.state = {
-            head: props.dialogData?._head ?? "no date",
-            body: props.dialogData?._body ?? "no date",
-            buttons: props.dialogData?._buttons ?? [],
+
             isShow: false//props.dialogData?._isShow??true,
 
 
         }
-
-
-        this.modalAtr = props.dialogData.modalAtr;// атрибуты для модального диалога
+        const p=props;
+        this.head=p.dialogData?._head ?? "no date";
+        this.body= p.dialogData?._body ?? "no date";
+        this.buttons= p.dialogData?._buttons ?? [];
+        this.modalAtr = p.dialogData.modalAtr;// атрибуты для модального диалога
 
         this.myRef = React.createRef();
         this.buttonModeAction = undefined;// копка которую нажали, закрытие по кресту odeId=-1
@@ -107,8 +106,7 @@ class DialogIon extends Component {
         }
     }
 
-    /* eslint-disable */
-    show = async (type) => {
+    async show(type){
         this.dialogType = type;
         return new Promise((resolve, reject) => {
             this.promiseInfo = {
@@ -119,8 +117,7 @@ class DialogIon extends Component {
                 isShow: true
             });
         });
-    };
-    /* eslint-enable */
+    }
 
     shouldComponentUpdate(nextProps, nextState) {
         if (nextState.isShow === false) {
@@ -155,7 +152,7 @@ class DialogIon extends Component {
     }
 
 
-    onClick = () => {
+    onClick(){
 
         let {resolve, reject} = this.promiseInfo;
         try {
@@ -180,8 +177,8 @@ class DialogIon extends Component {
 
                     const ss = this.buttonModeAction?.modeId ?? -1;
                     if (ss !== -1) {
-                        if (this.checkValidateForm(ss) === true) {  //todo внимание тут магия вызова снаружи
-                            const res = this.checkGetDataForm(ss);//todo внимание тут магия вызова снаружи
+                        if (this.checkValidateForm(ss) === true) {
+                            const res = this.checkGetDataForm(ss);
                             const ok = ss !== -1;
                             resolve(new MyResolve({ok: ok, modeId: ss, button: this.buttonModeAction, formData: res}))
                             this.setState({isShow: false})
@@ -301,10 +298,7 @@ class DialogIon extends Component {
 }
 
 class MyResolve {
-    ok;
-    modeId;
-    button;
-    formData;
+
 
     constructor({ok = false, modeId = -1, button = undefined, formData = undefined}) {
         this.ok = ok;
