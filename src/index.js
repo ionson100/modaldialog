@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 import {DialogButton} from "./modaldialogion/DialogData";
-
+import "./modaldialogion/styleDialog.css"
 import reportWebVitals from './reportWebVitals';
 import * as ReactDOM from "react-dom";
 import React from "react";

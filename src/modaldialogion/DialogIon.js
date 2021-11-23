@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import {Button, Image} from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal'
 import * as ReactDOM from "react-dom";
-import "./styleDialog.css"
+
 import {v4 as uuidv4} from 'uuid';
 import {hostDialog} from "./StorageDialog";
 
