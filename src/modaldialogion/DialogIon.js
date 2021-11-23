@@ -100,11 +100,11 @@ class DialogIon extends Component {
         this.oldDialog = hostDialog.currentDialog
 
         hostDialog.currentDialog = this;
-        console.log("old", this.oldDialog)
-        console.log("current", hostDialog.currentDialog)
+        //console.log("old", this.oldDialog)
+       // console.log("current", hostDialog.currentDialog)
         if (!hostDialog.moduleId) {
             hostDialog.moduleId = this.moduleIdCore;
-            console.log("init", hostDialog.moduleId, "  ", this.moduleIdCore)
+          //  console.log("init", hostDialog.moduleId, "  ", this.moduleIdCore)
         }
     }
 

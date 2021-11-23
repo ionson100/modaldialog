@@ -16,6 +16,8 @@ var _PromptBody = _interopRequireDefault(require("./PromptBody"));
 
 var _DialogIon = require("./DialogIon");
 
+require("bootstrap/dist/css/bootstrap.min.css");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }

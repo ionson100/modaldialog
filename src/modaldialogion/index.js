@@ -3,6 +3,7 @@ import {DialogData, DialogButton} from "./DialogData";
 import React from "react";
 import PromptBody from "./PromptBody";
 import {WrapperModal} from "./DialogIon";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 /**
  *  Вызов модального диалога в режиме полного конструктора

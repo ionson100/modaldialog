@@ -153,13 +153,11 @@ var DialogIon = /*#__PURE__*/function (_Component) {
     key: "checkGlobal",
     value: function checkGlobal() {
       this.oldDialog = _StorageDialog.hostDialog.currentDialog;
-      _StorageDialog.hostDialog.currentDialog = this;
-      console.log("old", this.oldDialog);
-      console.log("current", _StorageDialog.hostDialog.currentDialog);
+      _StorageDialog.hostDialog.currentDialog = this; //console.log("old", this.oldDialog)
+      // console.log("current", hostDialog.currentDialog)
 
       if (!_StorageDialog.hostDialog.moduleId) {
-        _StorageDialog.hostDialog.moduleId = this.moduleIdCore;
-        console.log("init", _StorageDialog.hostDialog.moduleId, "  ", this.moduleIdCore);
+        _StorageDialog.hostDialog.moduleId = this.moduleIdCore; //  console.log("init", hostDialog.moduleId, "  ", this.moduleIdCore)
       }
     }
   }, {
