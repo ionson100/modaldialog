@@ -118,4 +118,26 @@ class MyResolve {
     }
 }
 ```
-не закончен
+установка:
+```
+npm install https://github.com/ionson100/modaldialog.git
+
+```
+использование:
+```
+import {DialogAlert, DialogPrompt} from "modaldialogion";
+import "modaldialogion/dist/styleDialog.css"
+
+const b=document.getElementById("bt1")
+b.onclick=function (){
+    DialogAlert({
+        head: "Simple alert Dialog",
+        body: "Alert!!"
+    }).then(value => {
+        console.log(value)
+    }).catch(reason => {
+        console.log(reason)
+    })
+}
+```
+требует окончания
