@@ -1,3 +1,5 @@
+"use strict";
+
 class StorageDialog{
     constructor() {
         this.currentDialog= undefined;

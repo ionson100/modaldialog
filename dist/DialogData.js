@@ -1,6 +1,8 @@
+"use strict";
 /**
  * данные для показа диалогового окна.
  */
+
 export class DialogData {
   /**
    *

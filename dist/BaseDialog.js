@@ -1,3 +1,5 @@
+"use strict";
+
 import { Component } from "react";
 import { hostDialog } from "./StorageDialog";
 export default class BaseDialog extends Component {

@@ -1,3 +1,5 @@
+"use strict";
+
 import { DialogData, DialogButton } from "./DialogData";
 import React from "react";
 import PromptBody from "./PromptBody";

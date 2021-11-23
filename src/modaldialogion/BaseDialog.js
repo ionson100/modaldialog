@@ -1,4 +1,4 @@
-
+"use strict";
 import {Component} from "react";
 import {hostDialog} from "./StorageDialog";
 
