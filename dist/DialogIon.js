@@ -91,7 +91,7 @@ var WrapperModal = /*#__PURE__*/function () {
         animation: (_o$animation = o.animation) !== null && _o$animation !== void 0 ? _o$animation : true,
         dialogClassName: o.dialogClassName,
         contentClassName: o.contentClassName,
-        scrollable: (_o$scrollable = o.scrollable) !== null && _o$scrollable !== void 0 ? _o$scrollable : true
+        scrollable: (_o$scrollable = o.scrollable) !== null && _o$scrollable !== void 0 ? _o$scrollable : false
       };
     }
   }]);
