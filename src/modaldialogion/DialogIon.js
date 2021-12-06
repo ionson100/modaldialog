@@ -48,7 +48,7 @@ export class WrapperModal {
             animation: o.animation ?? true,
             dialogClassName: o.dialogClassName,
             contentClassName: o.contentClassName,
-            scrollable: o.scrollable ?? true
+            scrollable: o.scrollable ?? false
         }
     }
 }
