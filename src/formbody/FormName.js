@@ -22,7 +22,7 @@ export class FormNameF extends BaseDialog {
         this.myRef1 = React.createRef()
         this.myRef2 = React.createRef()
         this.myRef3 = React.createRef()
-      
+
 
         // eslint-disable-next-line no-undef
         global.refform = this;
@@ -30,6 +30,9 @@ export class FormNameF extends BaseDialog {
         this.getData.bind(this)
 
 
+    }
+    setActionClose(callback){
+        this.callbackClose=callback;
     }
 
     setValidated(v) {
@@ -44,7 +47,8 @@ export class FormNameF extends BaseDialog {
      */
     /* eslint-disable */
     validate(modeId) {
-
+        //this.callbackClose();
+        //return false
         const form = this.myRef.current;
         if (form.checkValidity() === false) {
             this.setValidated(true);

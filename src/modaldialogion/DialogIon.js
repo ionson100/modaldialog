@@ -87,6 +87,7 @@ class DialogIon extends Component {
         this.icon = props.dialogData?._icon ?? null;
         this.innerValidate = undefined
         this.innerGetData = undefined;
+        this.innerSetActionClose=undefined;
         this.myRefFocus = React.createRef()
         this.oldDialog = undefined
         /* eslint-enable */
@@ -110,6 +111,8 @@ class DialogIon extends Component {
 
     async show(type){
         this.dialogType = type;
+
+
         return new Promise((resolve, reject) => {
             this.promiseInfo = {
                 resolve,
@@ -138,6 +141,11 @@ class DialogIon extends Component {
     }
 
     checkValidateForm(b) {
+        if(this.dialogType==="form"){
+            this.innerSetActionClose(()=>{
+                this.setState({isShow: false})
+            })
+        }
         if (this.innerValidate) {
             return this.innerValidate(b)
         } else {

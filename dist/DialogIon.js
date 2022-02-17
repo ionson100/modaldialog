@@ -142,6 +142,7 @@ var DialogIon = /*#__PURE__*/function (_Component) {
     _this.icon = (_props$dialogData$_ic = (_props$dialogData = props.dialogData) === null || _props$dialogData === void 0 ? void 0 : _props$dialogData._icon) !== null && _props$dialogData$_ic !== void 0 ? _props$dialogData$_ic : null;
     _this.innerValidate = undefined;
     _this.innerGetData = undefined;
+    _this.innerSetActionClose = undefined;
     _this.myRefFocus = /*#__PURE__*/_react.default.createRef();
     _this.oldDialog = undefined;
     /* eslint-enable */
@@ -215,6 +216,16 @@ var DialogIon = /*#__PURE__*/function (_Component) {
   }, {
     key: "checkValidateForm",
     value: function checkValidateForm(b) {
+      var _this3 = this;
+
+      if (this.dialogType === "form") {
+        this.innerSetActionClose(function () {
+          _this3.setState({
+            isShow: false
+          });
+        });
+      }
+
       if (this.innerValidate) {
         return this.innerValidate(b);
       } else {
@@ -353,7 +364,7 @@ var DialogIon = /*#__PURE__*/function (_Component) {
   }, {
     key: "checkButtonFocus",
     value: function checkButtonFocus(b, i) {
-      var _this3 = this;
+      var _this4 = this;
 
       if (b.isFocus === true) {
         return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
@@ -361,9 +372,9 @@ var DialogIon = /*#__PURE__*/function (_Component) {
           ref: this.myRefFocus,
           variant: b.variant,
           onClick: function onClick() {
-            _this3.buttonModeAction = b;
+            _this4.buttonModeAction = b;
 
-            _this3.onClick(_this3);
+            _this4.onClick(_this4);
           },
           "data-mode-id": b.modeId
         }, b.name);
@@ -372,9 +383,9 @@ var DialogIon = /*#__PURE__*/function (_Component) {
           key: i,
           variant: b.variant,
           onClick: function onClick() {
-            _this3.buttonModeAction = b;
+            _this4.buttonModeAction = b;
 
-            _this3.onClick(_this3);
+            _this4.onClick(_this4);
           },
           "data-mode-id": b.modeId
         }, b.name);
@@ -383,18 +394,18 @@ var DialogIon = /*#__PURE__*/function (_Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this4 = this;
+      var _this5 = this;
 
       setTimeout(function () {
-        var _this4$myRefFocus$cur;
+        var _this5$myRefFocus$cur;
 
-        (_this4$myRefFocus$cur = _this4.myRefFocus.current) === null || _this4$myRefFocus$cur === void 0 ? void 0 : _this4$myRefFocus$cur.focus();
+        (_this5$myRefFocus$cur = _this5.myRefFocus.current) === null || _this5$myRefFocus$cur === void 0 ? void 0 : _this5$myRefFocus$cur.focus();
       }, 1);
     }
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       return /*#__PURE__*/_react.default.createElement(_Modal.default, {
         ref: this.myRef,
@@ -408,9 +419,9 @@ var DialogIon = /*#__PURE__*/function (_Component) {
         scrollable: this.modalAtr.scrollable,
         show: this.state.isShow,
         onHide: function onHide() {
-          _this5.buttonModeAction = null;
+          _this6.buttonModeAction = null;
 
-          _this5.onClick(_this5);
+          _this6.onClick(_this6);
         },
         backdrop: "static",
         keyboard: true
@@ -420,7 +431,7 @@ var DialogIon = /*#__PURE__*/function (_Component) {
       }, this.renderIcon(), /*#__PURE__*/_react.default.createElement(_Modal.default.Title, null, this.head)), /*#__PURE__*/_react.default.createElement(_Modal.default.Body, null, this.checkBody(this.body)), /*#__PURE__*/_react.default.createElement(_Modal.default.Footer, {
         className: "footerDialogion"
       }, this.buttons.map(function (b, i) {
-        return _this5.checkButtonFocus(b, i);
+        return _this6.checkButtonFocus(b, i);
       })));
     }
   }]);
