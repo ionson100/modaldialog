@@ -140,14 +140,13 @@ class DialogIon extends Component {
 
     }
 
+
     checkValidateForm(b) {
-        if(this.dialogType==="form"){
-            this.innerSetActionClose(()=>{
+
+        if (this.innerValidate) {
+            return this.innerValidate(b,()=>{
                 this.setState({isShow: false})
             })
-        }
-        if (this.innerValidate) {
-            return this.innerValidate(b)
         } else {
             return true;
         }

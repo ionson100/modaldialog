@@ -45,16 +45,11 @@ var BaseDialog = /*#__PURE__*/function (_Component) {
     setTimeout(function () {
       _StorageDialog.hostDialog.currentDialog.innerValidate = _this.validate.bind(_assertThisInitialized(_this));
       _StorageDialog.hostDialog.currentDialog.innerGetData = _this.getData.bind(_assertThisInitialized(_this));
-      _StorageDialog.hostDialog.currentDialog.innerSetActionClose = _this.setActionClose.bind(_assertThisInitialized(_this));
     }, 1);
     return _this;
-  } // eslint-disable-next-line no-unused-vars
-
+  }
 
   _createClass(BaseDialog, [{
-    key: "setActionClose",
-    value: function setActionClose() {}
-  }, {
     key: "validate",
     value: function validate() {
       return true;

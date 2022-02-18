@@ -218,16 +218,12 @@ var DialogIon = /*#__PURE__*/function (_Component) {
     value: function checkValidateForm(b) {
       var _this3 = this;
 
-      if (this.dialogType === "form") {
-        this.innerSetActionClose(function () {
+      if (this.innerValidate) {
+        return this.innerValidate(b, function () {
           _this3.setState({
             isShow: false
           });
         });
-      }
-
-      if (this.innerValidate) {
-        return this.innerValidate(b);
       } else {
         return true;
       }

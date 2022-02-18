@@ -9,18 +9,13 @@ export  default class BaseDialog extends Component {
         setTimeout(() => {
             hostDialog.currentDialog.innerValidate=this.validate.bind(this)
             hostDialog.currentDialog.innerGetData=this.getData.bind(this)
-            hostDialog.currentDialog.innerSetActionClose=this.setActionClose.bind(this)
+
         }, 1);
 
     }
 
-
-    // eslint-disable-next-line no-unused-vars
-    setActionClose(){
-
-    }
     validate(){
- return true;
+      return true;
     }
     getData(){
  return {
