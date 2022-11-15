@@ -214,7 +214,8 @@ function formDialog() {
         head: "Описание маршрута",
         icon:<FcMultipleSmartphones size={40}/>,
         body: _body,
-        listButton: s
+        listButton: s,
+        showHead:false
     })
 }
 

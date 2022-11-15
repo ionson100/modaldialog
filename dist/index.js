@@ -80,6 +80,7 @@ function _DialogModalAsync() {
         dialogAs,
         backdrop,
         keyboard,
+        showHead,
         wrap,
         props,
         type,
@@ -90,7 +91,7 @@ function _DialogModalAsync() {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            head = _ref.head, body = _ref.body, icon = _ref.icon, _ref$listButton = _ref.listButton, listButton = _ref$listButton === void 0 ? [] : _ref$listButton, size = _ref.size, fullscreen = _ref.fullscreen, centered = _ref.centered, animation = _ref.animation, dialogClassName = _ref.dialogClassName, contentClassName = _ref.contentClassName, scrollable = _ref.scrollable, dialogAs = _ref.dialogAs, backdrop = _ref.backdrop, keyboard = _ref.keyboard;
+            head = _ref.head, body = _ref.body, icon = _ref.icon, _ref$listButton = _ref.listButton, listButton = _ref$listButton === void 0 ? [] : _ref$listButton, size = _ref.size, fullscreen = _ref.fullscreen, centered = _ref.centered, animation = _ref.animation, dialogClassName = _ref.dialogClassName, contentClassName = _ref.contentClassName, scrollable = _ref.scrollable, dialogAs = _ref.dialogAs, backdrop = _ref.backdrop, keyboard = _ref.keyboard, showHead = _ref.showHead;
             wrap = new _DialogIon.WrapperModal();
             props = new _DialogData.DialogData(head, body, icon);
             listButton.map(function (b) {

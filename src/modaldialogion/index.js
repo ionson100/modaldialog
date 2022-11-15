@@ -28,7 +28,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 /* eslint-disable */
 export async function DialogModalAsync({head, body, icon, listButton = [], size,
                                            fullscreen, centered, animation, dialogClassName, contentClassName,
-                                           scrollable,dialogAs,backdrop,keyboard}) {
+                                           scrollable,dialogAs,backdrop,keyboard,showHead}) {
+
     const wrap = new WrapperModal();
     const props = new DialogData(head, body, icon)
     listButton.map((b) => {
@@ -57,8 +58,10 @@ export async function DialogModalAsync({head, body, icon, listButton = [], size,
  */
 /* eslint-disable */
 export async function DialogAlert({head, body, icon}) {
+
     const s = [new DialogButton("Close", -1, "primary", true)]
-    return DialogModalAsync({head: head, body: body, listButton: s, icon: icon})
+    return DialogModalAsync(
+        {head: head, body: body, listButton: s, icon: icon})
 }
 /* eslint-enable */
 

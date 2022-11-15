@@ -82,7 +82,7 @@ var WrapperModal = /*#__PURE__*/function () {
   }, {
     key: "getModalAttributes",
     value: function getModalAttributes(o) {
-      var _o$fullscree, _o$centered, _o$animation, _o$scrollable;
+      var _o$fullscree, _o$centered, _o$animation, _o$scrollable, _o$showHead;
 
       return {
         size: o.size,
@@ -91,7 +91,8 @@ var WrapperModal = /*#__PURE__*/function () {
         animation: (_o$animation = o.animation) !== null && _o$animation !== void 0 ? _o$animation : true,
         dialogClassName: o.dialogClassName,
         contentClassName: o.contentClassName,
-        scrollable: (_o$scrollable = o.scrollable) !== null && _o$scrollable !== void 0 ? _o$scrollable : false
+        scrollable: (_o$scrollable = o.scrollable) !== null && _o$scrollable !== void 0 ? _o$scrollable : false,
+        showHead: (_o$showHead = o.showHead) !== null && _o$showHead !== void 0 ? _o$showHead : true
       };
     }
   }]);
@@ -145,7 +146,13 @@ var DialogIon = /*#__PURE__*/function (_Component) {
     _this.innerSetActionClose = undefined;
     _this.myRefFocus = /*#__PURE__*/_react.default.createRef();
     _this.oldDialog = undefined;
+    _this.showHead = true;
+
+    if (_this.modalAtr.showHead === false) {
+      _this.showHead = false;
+    }
     /* eslint-enable */
+
 
     return _this;
   }
@@ -364,6 +371,7 @@ var DialogIon = /*#__PURE__*/function (_Component) {
 
       if (b.isFocus === true) {
         return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+          className: "button-dialogion",
           key: i,
           ref: this.myRefFocus,
           variant: b.variant,
@@ -376,6 +384,7 @@ var DialogIon = /*#__PURE__*/function (_Component) {
         }, b.name);
       } else {
         return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+          className: "button-dialogion",
           key: i,
           variant: b.variant,
           onClick: function onClick() {
@@ -397,6 +406,18 @@ var DialogIon = /*#__PURE__*/function (_Component) {
 
         (_this5$myRefFocus$cur = _this5.myRefFocus.current) === null || _this5$myRefFocus$cur === void 0 ? void 0 : _this5$myRefFocus$cur.focus();
       }, 1);
+    }
+  }, {
+    key: "showHeadDialog",
+    value: function showHeadDialog() {
+      if (this.showHead === true) {
+        return /*#__PURE__*/_react.default.createElement(_Modal.default.Header, {
+          closeButton: true,
+          className: "headerDialogion"
+        }, this.renderIcon(), /*#__PURE__*/_react.default.createElement(_Modal.default.Title, null, this.head));
+      } else {
+        return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null);
+      }
     }
   }, {
     key: "render",
@@ -421,10 +442,7 @@ var DialogIon = /*#__PURE__*/function (_Component) {
         },
         backdrop: "static",
         keyboard: true
-      }, /*#__PURE__*/_react.default.createElement(_Modal.default.Header, {
-        closeButton: true,
-        className: "headerDialogion"
-      }, this.renderIcon(), /*#__PURE__*/_react.default.createElement(_Modal.default.Title, null, this.head)), /*#__PURE__*/_react.default.createElement(_Modal.default.Body, null, this.checkBody(this.body)), /*#__PURE__*/_react.default.createElement(_Modal.default.Footer, {
+      }, this.showHeadDialog(), /*#__PURE__*/_react.default.createElement(_Modal.default.Body, null, this.checkBody(this.body)), /*#__PURE__*/_react.default.createElement(_Modal.default.Footer, {
         className: "footerDialogion"
       }, this.buttons.map(function (b, i) {
         return _this6.checkButtonFocus(b, i);

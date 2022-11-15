@@ -10,6 +10,7 @@ import {v4 as uuidv4} from 'uuid';
 import {hostDialog} from "./StorageDialog";
 
 
+
 /**
  * обертка компонента модального окна, требуется точка монтирования
  */
@@ -48,7 +49,8 @@ export class WrapperModal {
             animation: o.animation ?? true,
             dialogClassName: o.dialogClassName,
             contentClassName: o.contentClassName,
-            scrollable: o.scrollable ?? false
+            scrollable: o.scrollable ?? false,
+            showHead:o.showHead??true
         }
     }
 }
@@ -90,6 +92,10 @@ class DialogIon extends Component {
         this.innerSetActionClose=undefined;
         this.myRefFocus = React.createRef()
         this.oldDialog = undefined
+        this.showHead=true;
+        if(this.modalAtr.showHead===false){
+            this.showHead=false;
+        }
         /* eslint-enable */
 
     }
@@ -235,14 +241,14 @@ class DialogIon extends Component {
 
     checkButtonFocus(b, i) {
         if (b.isFocus === true) {
-            return (<Button key={i} ref={this.myRefFocus} variant={b.variant} onClick={() => {
+            return (<Button className="button-dialogion" key={i} ref={this.myRefFocus} variant={b.variant} onClick={() => {
                 this.buttonModeAction = b;
                 this.onClick(this)
             }} data-mode-id={b.modeId}>
                 {b.name}
             </Button>);
         } else {
-            return (<Button key={i} variant={b.variant} onClick={() => {
+            return (<Button className="button-dialogion" key={i} variant={b.variant} onClick={() => {
                 this.buttonModeAction = b;
                 this.onClick(this)
             }} data-mode-id={b.modeId}>
@@ -256,6 +262,18 @@ class DialogIon extends Component {
             this.myRefFocus.current?.focus();
         }, 1);
 
+    }
+    showHeadDialog(){
+        if(this.showHead===true){
+            return(
+                <Modal.Header closeButton className="headerDialogion">
+                    {this.renderIcon()}
+                    <Modal.Title>{this.head}</Modal.Title>
+                </Modal.Header>
+            )
+        }else {
+            return (<></>)
+        }
     }
 
     render() {
@@ -282,11 +300,10 @@ class DialogIon extends Component {
 
             >
 
-                <Modal.Header closeButton className="headerDialogion">
-                    {this.renderIcon()}
-                    <Modal.Title>{this.head}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+                {
+                    this.showHeadDialog()
+                }
+                <Modal.Body >
                     {this.checkBody(this.body)}
                 </Modal.Body>
                 <Modal.Footer className="footerDialogion">
