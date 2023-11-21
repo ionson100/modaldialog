@@ -8,9 +8,12 @@
  * @param body тело сообщения строка или React Component
  * @param icon иконка для файла диалога, строка или React Component
  * @returns {Promise<*>}
+ * @rebaseHead дополнение класс header
+ * @rebaseBody дополнение класса body
+ * @rebaseFooter дополнение класса footer
  * @constructor
  */
-export async function DialogAlert({head, body, icon}){}
+export async function DialogAlert({head, body, icon,rebaseHead,rebaseBody,rebaseFooter}){}
 ```
 ```javascript
 /**
@@ -19,10 +22,13 @@ export async function DialogAlert({head, body, icon}){}
  * @param body лейбл для поля ввода
  * @param icon иконка для файла диалога, строка или React Component
  * @param valueForPrompt значение по умолчанию для поля ввода
+ * @rebaseHead дополнение класс header
+ * @rebaseBody дополнение класса body
+ * @rebaseFooter дополнение класса footer
  * @returns {Promise<*>}
  * @constructor
  */
-export async function DialogPrompt({head, body, icon, valueForPrompt}){}
+export async function DialogPrompt({head, body, icon, valueForPrompt,rebaseHead,rebaseBody,rebaseFooter}){}
 ```
 ```javascript
 
@@ -32,9 +38,12 @@ export async function DialogPrompt({head, body, icon, valueForPrompt}){}
  * @param body тело диалога строка или React Component ( тело должно наследовать класс BaseDialog ( переопределит validate и getData )
  * @param icon иконка для файла диалога, строка или React Component
  * @returns {Promise<*>}
+ * @rebaseHead дополнение класс header
+ * @rebaseBody дополнение класса body
+ * @rebaseFooter дополнение класса footer
  * @constructor
  */
-export async function DialogConfirm({head, body, icon}){}
+export async function DialogConfirm({head, body, icon,rebaseHead,rebaseBody,rebaseFooter}){}
 ```
 вызов полного конструктора
 ```javascript
@@ -56,11 +65,14 @@ export async function DialogConfirm({head, body, icon}){}
  * @param backdrop
  * @param keyboard
  * @returns {Promise<*>}
+ * @rebaseHead дополнение класс header
+ * @rebaseBody дополнение класса body
+ * @rebaseFooter дополнение класса footer
  * @constructor
  */
 export async function DialogModalAsync({head, body, icon, listButton = [], size,
                                            fullscreen, centered, animation, dialogClassName, contentClassName,
-                                           scrollable,dialogAs,backdrop,keyboard}){}
+                                           scrollable,dialogAs,backdrop,keyboard,rebaseHead,rebaseBody,rebaseFooter}){}
 ```
 что нужно учесть,
 Параметр head: может быть строкой или JSX React Component
