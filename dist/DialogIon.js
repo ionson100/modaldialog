@@ -76,7 +76,7 @@ var WrapperModal = /*#__PURE__*/function () {
     /**
      * получение аттрибутов модального диалога со значениями по умолчанию
      * @param o параметры компонента
-     * @returns {{size: *, centered, fullscree, dialogClassName: *, contentClassName: *, scrollable, animation}}
+     * @returns {{size: *, centered, fullscree, dialogClassName: *, contentClassName: *, scrollable, animation,rebaseHead,rebaseBody,rebaseFooter}}
      */
 
   }, {
@@ -92,7 +92,10 @@ var WrapperModal = /*#__PURE__*/function () {
         dialogClassName: o.dialogClassName,
         contentClassName: o.contentClassName,
         scrollable: (_o$scrollable = o.scrollable) !== null && _o$scrollable !== void 0 ? _o$scrollable : false,
-        showHead: (_o$showHead = o.showHead) !== null && _o$showHead !== void 0 ? _o$showHead : true
+        showHead: (_o$showHead = o.showHead) !== null && _o$showHead !== void 0 ? _o$showHead : true,
+        rebaseHead: o.rebaseHead,
+        rebaseBody: o.rebaseBody,
+        rebaseFooter: o.rebaseFooter
       };
     }
   }]);
@@ -135,8 +138,9 @@ var DialogIon = /*#__PURE__*/function (_Component) {
     _this.buttons = (_p$dialogData$_button = (_p$dialogData3 = p.dialogData) === null || _p$dialogData3 === void 0 ? void 0 : _p$dialogData3._buttons) !== null && _p$dialogData$_button !== void 0 ? _p$dialogData$_button : [];
     _this.modalAtr = p.dialogData.modalAtr; // атрибуты для модального диалога
 
+    console.info(_this.modalAtr.rebaseBody);
     _this.myRef = /*#__PURE__*/_react.default.createRef();
-    _this.buttonModeAction = undefined; // копка которую нажали, закрытие по кресту odeId=-1
+    _this.buttonModeAction = undefined; // кнопка которую нажали, закрытие по кресту odeId=-1
 
     _this.promiseInfo = {};
     _this.dialogType = "none";
@@ -151,8 +155,11 @@ var DialogIon = /*#__PURE__*/function (_Component) {
     if (_this.modalAtr.showHead === false) {
       _this.showHead = false;
     }
-    /* eslint-enable */
 
+    _this.rebaseHead = _this.modalAtr.rebaseHead;
+    _this.rebaseBody = _this.modalAtr.rebaseBody;
+    _this.rebaseFooter = _this.modalAtr.rebaseFooter;
+    /* eslint-enable */
 
     return _this;
   }
@@ -208,8 +215,7 @@ var DialogIon = /*#__PURE__*/function (_Component) {
     key: "shouldComponentUpdate",
     value: function shouldComponentUpdate(nextProps, nextState) {
       if (nextState.isShow === false) {
-        console.log(_StorageDialog.hostDialog.moduleId, "  ", this.moduleIdCore);
-
+        // console.log(hostDialog.moduleId, "  ", this.moduleIdCore)
         if (_StorageDialog.hostDialog.moduleId === this.moduleIdCore) {
           _StorageDialog.hostDialog.currentDialog = undefined;
           _StorageDialog.hostDialog.moduleId = undefined;
@@ -371,7 +377,6 @@ var DialogIon = /*#__PURE__*/function (_Component) {
 
       if (b.isFocus === true) {
         return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-          className: "button-dialogion",
           key: i,
           ref: this.myRefFocus,
           variant: b.variant,
@@ -384,7 +389,6 @@ var DialogIon = /*#__PURE__*/function (_Component) {
         }, b.name);
       } else {
         return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-          className: "button-dialogion",
           key: i,
           variant: b.variant,
           onClick: function onClick() {
@@ -413,7 +417,7 @@ var DialogIon = /*#__PURE__*/function (_Component) {
       if (this.showHead === true) {
         return /*#__PURE__*/_react.default.createElement(_Modal.default.Header, {
           closeButton: true,
-          className: "headerDialogion"
+          className: this.rebaseHead ? this.rebaseHead : ""
         }, this.renderIcon(), /*#__PURE__*/_react.default.createElement(_Modal.default.Title, null, this.head));
       } else {
         return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null);
@@ -442,8 +446,10 @@ var DialogIon = /*#__PURE__*/function (_Component) {
         },
         backdrop: "static",
         keyboard: true
-      }, this.showHeadDialog(), /*#__PURE__*/_react.default.createElement(_Modal.default.Body, null, this.checkBody(this.body)), /*#__PURE__*/_react.default.createElement(_Modal.default.Footer, {
-        className: "footerDialogion"
+      }, this.showHeadDialog(), /*#__PURE__*/_react.default.createElement("div", {
+        className: this.rebaseBody ? "modal-body " + this.rebaseBody : "modal-body"
+      }, this.checkBody(this.body)), /*#__PURE__*/_react.default.createElement("div", {
+        className: this.rebaseFooter ? "modal-footer " + this.rebaseFooter : "modal-footer"
       }, this.buttons.map(function (b, i) {
         return _this6.checkButtonFocus(b, i);
       })));

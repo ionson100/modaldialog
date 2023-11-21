@@ -23,12 +23,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
  * @param backdrop
  * @param keyboard
  * @returns {Promise<*>}
+ * @rebaseHead дополнение класс header
+ * @rebaseBody дополнение класса body
+ * @rebaseFooter дополнение класса footer
  * @constructor
  */
 /* eslint-disable */
 export async function DialogModalAsync({head, body, icon, listButton = [], size,
                                            fullscreen, centered, animation, dialogClassName, contentClassName,
-                                           scrollable,dialogAs,backdrop,keyboard,showHead}) {
+                                           scrollable,dialogAs,backdrop,keyboard,showHead,rebaseHead,rebaseBody,rebaseFooter}) {
+
 
     const wrap = new WrapperModal();
     const props = new DialogData(head, body, icon)
@@ -53,15 +57,19 @@ export async function DialogModalAsync({head, body, icon, listButton = [], size,
  * @param head заголовок окна строка или React Component
  * @param body тело сообщения строка или React Component
  * @param icon иконка для файла диалога, строка или React Component
+ * @rebaseHead дополнение класс header
+ * @rebaseBody дополнение класса body
+ * @rebaseFooter дополнение класса footer
  * @returns {Promise<*>}
  * @constructor
  */
 /* eslint-disable */
-export async function DialogAlert({head, body, icon}) {
+export async function DialogAlert({head, body, icon,rebaseHead,rebaseBody,rebaseFooter}) {
+
 
     const s = [new DialogButton("Close", -1, "primary", true)]
     return DialogModalAsync(
-        {head: head, body: body, listButton: s, icon: icon})
+        {head: head, body: body, listButton: s, icon: icon,rebaseBody:rebaseBody,rebaseHead:rebaseHead,rebaseFooter:rebaseFooter})
 }
 /* eslint-enable */
 
@@ -72,13 +80,16 @@ export async function DialogAlert({head, body, icon}) {
  * @param icon иконка для файла диалога, строка или React Component
  * @param valueForPrompt значение по умолчанию для поля ввода
  * @returns {Promise<*>}
+ * @rebaseHead дополнение класс header
+ * @rebaseBody дополнение класса body
+ * @rebaseFooter дополнение класса footer
  * @constructor
  */
-export async function DialogPrompt({head, body, icon, valueForPrompt}) {
+export async function DialogPrompt({head, body, icon, valueForPrompt,rebaseHead,rebaseBody,rebaseFooter}) {
     const s = [new DialogButton("Close", -1, "primary", true), new DialogButton("Ok", 1, "primary")]
     const p = {label: body, value: valueForPrompt}
     const _body = <PromptBody data={p}/>
-    return DialogModalAsync({head: head, body: _body, listButton: s, icon: icon})
+    return DialogModalAsync({head: head, body: _body, listButton: s, icon: icon,rebaseBody:rebaseBody,rebaseHead:rebaseHead,rebaseFooter:rebaseFooter})
 }
 
 /**
@@ -87,9 +98,12 @@ export async function DialogPrompt({head, body, icon, valueForPrompt}) {
  * @param body тело диалога строка или React Component ( тело должно наследовать класс BaseDialog ( переопределит validate и getData )
  * @param icon иконка для файла диалога, строка или React Component
  * @returns {Promise<*>}
+ * @rebaseHead дополнение класс header
+ * @rebaseBody дополнение класса body
+ * @rebaseFooter дополнение класса footer
  * @constructor
  */
-export async function DialogConfirm({head, body, icon}) {
+export async function DialogConfirm({head, body, icon,rebaseHead,rebaseBody,rebaseFooter}) {
     const s = [new DialogButton("Close", -1, "primary", true), new DialogButton("Ok", 1, "primary")]
-    return DialogModalAsync({head: head, body: body, listButton: s, icon: icon})
+    return DialogModalAsync({head: head, body: body, listButton: s, icon: icon,rebaseBody:rebaseBody,rebaseHead:rebaseHead,rebaseFooter:rebaseFooter})
 }

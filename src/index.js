@@ -26,7 +26,8 @@ bt1.onclick = () => {
     DialogAlert(
         {
             head: <Head/>,
-            body: "Body Dialog image",
+            rebaseFooter:"iontest",
+            body: "Body Dialog image test",
             icon: <FcDeleteDatabase size={40}/>
         }).then(value => {
         span.innerHTML = JSON.stringify(value);
@@ -145,7 +146,8 @@ bt6.onclick = () => {
         span.innerHTML = ""
 
         DialogAlert({
-            head: "Simple Dialog",
+
+            head: "Simple Dialog iontest",
             body: "Body Dialog",
             icon: <FcDeleteDatabase size={40}/>
         }).then(value => {

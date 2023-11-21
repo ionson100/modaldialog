@@ -42,6 +42,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
  * @param backdrop
  * @param keyboard
  * @returns {Promise<*>}
+ * @rebaseHead дополнение класс header
+ * @rebaseBody дополнение класса body
+ * @rebaseFooter дополнение класса footer
  * @constructor
  */
 
@@ -56,6 +59,9 @@ function DialogModalAsync(_x) {
  * @param head заголовок окна строка или React Component
  * @param body тело сообщения строка или React Component
  * @param icon иконка для файла диалога, строка или React Component
+ * @rebaseHead дополнение класс header
+ * @rebaseBody дополнение класса body
+ * @rebaseFooter дополнение класса footer
  * @returns {Promise<*>}
  * @constructor
  */
@@ -81,6 +87,9 @@ function _DialogModalAsync() {
         backdrop,
         keyboard,
         showHead,
+        rebaseHead,
+        rebaseBody,
+        rebaseFooter,
         wrap,
         props,
         type,
@@ -91,7 +100,7 @@ function _DialogModalAsync() {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            head = _ref.head, body = _ref.body, icon = _ref.icon, _ref$listButton = _ref.listButton, listButton = _ref$listButton === void 0 ? [] : _ref$listButton, size = _ref.size, fullscreen = _ref.fullscreen, centered = _ref.centered, animation = _ref.animation, dialogClassName = _ref.dialogClassName, contentClassName = _ref.contentClassName, scrollable = _ref.scrollable, dialogAs = _ref.dialogAs, backdrop = _ref.backdrop, keyboard = _ref.keyboard, showHead = _ref.showHead;
+            head = _ref.head, body = _ref.body, icon = _ref.icon, _ref$listButton = _ref.listButton, listButton = _ref$listButton === void 0 ? [] : _ref$listButton, size = _ref.size, fullscreen = _ref.fullscreen, centered = _ref.centered, animation = _ref.animation, dialogClassName = _ref.dialogClassName, contentClassName = _ref.contentClassName, scrollable = _ref.scrollable, dialogAs = _ref.dialogAs, backdrop = _ref.backdrop, keyboard = _ref.keyboard, showHead = _ref.showHead, rebaseHead = _ref.rebaseHead, rebaseBody = _ref.rebaseBody, rebaseFooter = _ref.rebaseFooter;
             wrap = new _DialogIon.WrapperModal();
             props = new _DialogData.DialogData(head, body, icon);
             listButton.map(function (b) {
@@ -135,24 +144,30 @@ function DialogAlert(_x2) {
  * @param icon иконка для файла диалога, строка или React Component
  * @param valueForPrompt значение по умолчанию для поля ввода
  * @returns {Promise<*>}
+ * @rebaseHead дополнение класс header
+ * @rebaseBody дополнение класса body
+ * @rebaseFooter дополнение класса footer
  * @constructor
  */
 
 
 function _DialogAlert() {
   _DialogAlert = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref2) {
-    var head, body, icon, s;
+    var head, body, icon, rebaseHead, rebaseBody, rebaseFooter, s;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            head = _ref2.head, body = _ref2.body, icon = _ref2.icon;
+            head = _ref2.head, body = _ref2.body, icon = _ref2.icon, rebaseHead = _ref2.rebaseHead, rebaseBody = _ref2.rebaseBody, rebaseFooter = _ref2.rebaseFooter;
             s = [new _DialogData.DialogButton("Close", -1, "primary", true)];
             return _context2.abrupt("return", DialogModalAsync({
               head: head,
               body: body,
               listButton: s,
-              icon: icon
+              icon: icon,
+              rebaseBody: rebaseBody,
+              rebaseHead: rebaseHead,
+              rebaseFooter: rebaseFooter
             }));
 
           case 3:
@@ -174,19 +189,22 @@ function DialogPrompt(_x3) {
  * @param body тело диалога строка или React Component ( тело должно наследовать класс BaseDialog ( переопределит validate и getData )
  * @param icon иконка для файла диалога, строка или React Component
  * @returns {Promise<*>}
+ * @rebaseHead дополнение класс header
+ * @rebaseBody дополнение класса body
+ * @rebaseFooter дополнение класса footer
  * @constructor
  */
 
 
 function _DialogPrompt() {
   _DialogPrompt = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref3) {
-    var head, body, icon, valueForPrompt, s, p, _body;
+    var head, body, icon, valueForPrompt, rebaseHead, rebaseBody, rebaseFooter, s, p, _body;
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            head = _ref3.head, body = _ref3.body, icon = _ref3.icon, valueForPrompt = _ref3.valueForPrompt;
+            head = _ref3.head, body = _ref3.body, icon = _ref3.icon, valueForPrompt = _ref3.valueForPrompt, rebaseHead = _ref3.rebaseHead, rebaseBody = _ref3.rebaseBody, rebaseFooter = _ref3.rebaseFooter;
             s = [new _DialogData.DialogButton("Close", -1, "primary", true), new _DialogData.DialogButton("Ok", 1, "primary")];
             p = {
               label: body,
@@ -199,7 +217,10 @@ function _DialogPrompt() {
               head: head,
               body: _body,
               listButton: s,
-              icon: icon
+              icon: icon,
+              rebaseBody: rebaseBody,
+              rebaseHead: rebaseHead,
+              rebaseFooter: rebaseFooter
             }));
 
           case 5:
@@ -218,18 +239,21 @@ function DialogConfirm(_x4) {
 
 function _DialogConfirm() {
   _DialogConfirm = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref4) {
-    var head, body, icon, s;
+    var head, body, icon, rebaseHead, rebaseBody, rebaseFooter, s;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            head = _ref4.head, body = _ref4.body, icon = _ref4.icon;
+            head = _ref4.head, body = _ref4.body, icon = _ref4.icon, rebaseHead = _ref4.rebaseHead, rebaseBody = _ref4.rebaseBody, rebaseFooter = _ref4.rebaseFooter;
             s = [new _DialogData.DialogButton("Close", -1, "primary", true), new _DialogData.DialogButton("Ok", 1, "primary")];
             return _context4.abrupt("return", DialogModalAsync({
               head: head,
               body: body,
               listButton: s,
-              icon: icon
+              icon: icon,
+              rebaseBody: rebaseBody,
+              rebaseHead: rebaseHead,
+              rebaseFooter: rebaseFooter
             }));
 
           case 3:

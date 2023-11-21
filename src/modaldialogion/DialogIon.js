@@ -39,7 +39,7 @@ export class WrapperModal {
     /**
      * получение аттрибутов модального диалога со значениями по умолчанию
      * @param o параметры компонента
-     * @returns {{size: *, centered, fullscree, dialogClassName: *, contentClassName: *, scrollable, animation}}
+     * @returns {{size: *, centered, fullscree, dialogClassName: *, contentClassName: *, scrollable, animation,rebaseHead,rebaseBody,rebaseFooter}}
      */
     getModalAttributes(o) {
         return {
@@ -50,7 +50,11 @@ export class WrapperModal {
             dialogClassName: o.dialogClassName,
             contentClassName: o.contentClassName,
             scrollable: o.scrollable ?? false,
-            showHead:o.showHead??true
+            showHead:o.showHead??true,
+            rebaseHead:o.rebaseHead,
+            rebaseBody:o.rebaseBody,
+            rebaseFooter:o.rebaseFooter
+
         }
     }
 }
@@ -76,17 +80,22 @@ class DialogIon extends Component {
 
 
         }
+
         const p=props;
+
         this.head=p.dialogData?._head ?? "no date";
         this.body= p.dialogData?._body ?? "no date";
         this.buttons= p.dialogData?._buttons ?? [];
         this.modalAtr = p.dialogData.modalAtr;// атрибуты для модального диалога
 
+        console.info(this.modalAtr.rebaseBody)
+
         this.myRef = React.createRef();
-        this.buttonModeAction = undefined;// копка которую нажали, закрытие по кресту odeId=-1
+        this.buttonModeAction = undefined;// кнопка которую нажали, закрытие по кресту odeId=-1
         this.promiseInfo = {};
         this.dialogType = "none";
         this.icon = props.dialogData?._icon ?? null;
+
         this.innerValidate = undefined
         this.innerGetData = undefined;
         this.innerSetActionClose=undefined;
@@ -96,6 +105,9 @@ class DialogIon extends Component {
         if(this.modalAtr.showHead===false){
             this.showHead=false;
         }
+        this.rebaseHead=this.modalAtr.rebaseHead;
+        this.rebaseBody=this.modalAtr.rebaseBody;
+        this.rebaseFooter=this.modalAtr.rebaseFooter
         /* eslint-enable */
 
     }
@@ -132,7 +144,7 @@ class DialogIon extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (nextState.isShow === false) {
-            console.log(hostDialog.moduleId, "  ", this.moduleIdCore)
+            // console.log(hostDialog.moduleId, "  ", this.moduleIdCore)
             if (hostDialog.moduleId === this.moduleIdCore) {
                 hostDialog.currentDialog = undefined;
                 hostDialog.moduleId = undefined;
@@ -241,14 +253,14 @@ class DialogIon extends Component {
 
     checkButtonFocus(b, i) {
         if (b.isFocus === true) {
-            return (<Button className="button-dialogion" key={i} ref={this.myRefFocus} variant={b.variant} onClick={() => {
+            return (<Button  key={i} ref={this.myRefFocus} variant={b.variant} onClick={() => {
                 this.buttonModeAction = b;
                 this.onClick(this)
             }} data-mode-id={b.modeId}>
                 {b.name}
             </Button>);
         } else {
-            return (<Button className="button-dialogion" key={i} variant={b.variant} onClick={() => {
+            return (<Button  key={i} variant={b.variant} onClick={() => {
                 this.buttonModeAction = b;
                 this.onClick(this)
             }} data-mode-id={b.modeId}>
@@ -266,7 +278,7 @@ class DialogIon extends Component {
     showHeadDialog(){
         if(this.showHead===true){
             return(
-                <Modal.Header closeButton className="headerDialogion">
+                <Modal.Header closeButton className={this.rebaseHead?this.rebaseHead:""}>
                     {this.renderIcon()}
                     <Modal.Title>{this.head}</Modal.Title>
                 </Modal.Header>
@@ -303,10 +315,10 @@ class DialogIon extends Component {
                 {
                     this.showHeadDialog()
                 }
-                <Modal.Body >
+                <div  className={this.rebaseBody?("modal-body "+this.rebaseBody):"modal-body"}>
                     {this.checkBody(this.body)}
-                </Modal.Body>
-                <Modal.Footer className="footerDialogion">
+                </div>
+                <div   className={this.rebaseFooter?("modal-footer "+this.rebaseFooter):"modal-footer"}>
                     {
                         this.buttons.map((b, i) => {
                             return (
@@ -315,7 +327,7 @@ class DialogIon extends Component {
                         })
                     }
 
-                </Modal.Footer>
+                </div>
             </Modal>
 
         );
