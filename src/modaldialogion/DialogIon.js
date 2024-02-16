@@ -251,21 +251,50 @@ class DialogIon extends Component {
         }
     }
 
+
+     addIcon(icon){
+        if(icon){
+            return(<>{icon}</>)
+        }
+     }
     checkButtonFocus(b, i) {
         if (b.isFocus === true) {
-            return (<Button  key={i} ref={this.myRefFocus} variant={b.variant} onClick={() => {
-                this.buttonModeAction = b;
-                this.onClick(this)
-            }} data-mode-id={b.modeId}>
-                {b.name}
-            </Button>);
+            if(b.IsLink===true){
+                return (<a href="#"  key={i} ref={this.myRefFocus} className={b.variant}  onClick={() => {
+                    this.buttonModeAction = b;
+                    this.onClick(this)
+                }} data-mode-id={b.modeId}>
+                    {this.addIcon(b.Icon)}
+                    {b.name}
+                </a>);
+            }else{
+                return (<Button  key={i} ref={this.myRefFocus} variant={b.variant} onClick={() => {
+                    this.buttonModeAction = b;
+                    this.onClick(this)
+                }} data-mode-id={b.modeId}>
+                    {this.addIcon(b.Icon)}
+                    {b.name}
+                </Button>);
+            }
+
         } else {
-            return (<Button  key={i} variant={b.variant} onClick={() => {
-                this.buttonModeAction = b;
-                this.onClick(this)
-            }} data-mode-id={b.modeId}>
-                {b.name}
-            </Button>);
+            if(b.IsLink===true){
+                return (<a href="#"  key={i} variant={b.variant} onClick={() => {
+                    this.buttonModeAction = b;
+                    this.onClick(this)
+                }} data-mode-id={b.modeId}>
+                    {this.addIcon(b.Icon)}
+                    {b.name}
+                </a>);
+            }else{
+                return (<Button  key={i} variant={b.variant} onClick={() => {
+                    this.buttonModeAction = b;
+                    this.onClick(this)
+                }} data-mode-id={b.modeId}>
+                    {this.addIcon(b.Icon)}
+                    {b.name}
+                </Button>);
+            }
         }
     }
 

@@ -95,12 +95,16 @@ validate проверяет корректность виденных данны
      * @param modeId {number} идентификатор кнопки, для кнопки отмены или закрытия : = -1;
      * @param variant {string} стиль кнопки : https://react-bootstrap.github.io/components/buttons/
      * @param isFocus первоначальный фокус кнопки
+     * @param isLink  вид ссылки (bootstrap link class)
+     * @param Icon иконка
      */
-    constructor(name,modeId=1,variant="primary",isFocus=false) {
+    constructor(name,modeId=1,variant="primary",isFocus=false,IsLink=false,Icon=undefined) {
         this.name = name;
         this.variant = variant;
         this.modeId = modeId;
         this.isFocus=isFocus;
+        this.IsLink = IsLink;
+        this.Icon=Icon;
     }
 }
 ```

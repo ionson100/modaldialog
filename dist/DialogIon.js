@@ -371,33 +371,69 @@ var DialogIon = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
+    key: "addIcon",
+    value: function addIcon(icon) {
+      if (icon) {
+        return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, icon);
+      }
+    }
+  }, {
     key: "checkButtonFocus",
     value: function checkButtonFocus(b, i) {
       var _this4 = this;
 
       if (b.isFocus === true) {
-        return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-          key: i,
-          ref: this.myRefFocus,
-          variant: b.variant,
-          onClick: function onClick() {
-            _this4.buttonModeAction = b;
+        if (b.IsLink === true) {
+          return /*#__PURE__*/_react.default.createElement("a", {
+            href: "#",
+            key: i,
+            ref: this.myRefFocus,
+            className: b.variant,
+            onClick: function onClick() {
+              _this4.buttonModeAction = b;
 
-            _this4.onClick(_this4);
-          },
-          "data-mode-id": b.modeId
-        }, b.name);
+              _this4.onClick(_this4);
+            },
+            "data-mode-id": b.modeId
+          }, this.addIcon(b.Icon), b.name);
+        } else {
+          return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+            key: i,
+            ref: this.myRefFocus,
+            variant: b.variant,
+            onClick: function onClick() {
+              _this4.buttonModeAction = b;
+
+              _this4.onClick(_this4);
+            },
+            "data-mode-id": b.modeId
+          }, this.addIcon(b.Icon), b.name);
+        }
       } else {
-        return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-          key: i,
-          variant: b.variant,
-          onClick: function onClick() {
-            _this4.buttonModeAction = b;
+        if (b.IsLink === true) {
+          return /*#__PURE__*/_react.default.createElement("a", {
+            href: "#",
+            key: i,
+            variant: b.variant,
+            onClick: function onClick() {
+              _this4.buttonModeAction = b;
 
-            _this4.onClick(_this4);
-          },
-          "data-mode-id": b.modeId
-        }, b.name);
+              _this4.onClick(_this4);
+            },
+            "data-mode-id": b.modeId
+          }, this.addIcon(b.Icon), b.name);
+        } else {
+          return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+            key: i,
+            variant: b.variant,
+            onClick: function onClick() {
+              _this4.buttonModeAction = b;
+
+              _this4.onClick(_this4);
+            },
+            "data-mode-id": b.modeId
+          }, this.addIcon(b.Icon), b.name);
+        }
       }
     }
   }, {

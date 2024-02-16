@@ -1,4 +1,4 @@
-
+import { MdCancel } from "react-icons/md";
 import './index.css';
 
 import {DialogButton} from "./modaldialogion/DialogData";
@@ -53,7 +53,7 @@ bt2.onclick = () => {
 const bt3 = document.getElementById('bt_3');
 bt3.onclick = () => {
     span.innerHTML = ""
-    selectionDialog("select dialog", "Выбрать тип закрытия").then(value => {
+    selectionDialog("assa", "Выбрать тип закрытия").then(value => {
         span.innerHTML = `Нажали кнопку: ${JSON.stringify(value, null, 1)}`;
     }).catch(reason => {
 
@@ -192,10 +192,11 @@ function selectionDialog(head, body) {
 
     const s = [];
 
-    s.push(new DialogButton("select 1", 1, "primary"))
-    s.push(new DialogButton("select 2", 2, "primary"))
-    s.push(new DialogButton("select 3", 3, "primary"))
-    s.push(new DialogButton("Close", -1, "danger", true))
+    // s.push(new DialogButton("select 1", 1, "primary",false,false,<FcGallery/>))
+    s.push(new DialogButton("select 2", 2, "primary",false,false,<FcGallery/>))
+    s.push(new DialogButton("select 3", 3, "primary",false,false))
+    s.push(new DialogButton("Close", -1, "outline-danger",
+        true,false,<MdCancel/>))
     return DialogModalAsync({
         head: head,
         body: body,

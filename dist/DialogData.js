@@ -77,11 +77,15 @@ var DialogButton =
  * @param modeId {number} идентификатор кнопки, для кнопки отмены или закрытия : = -1;
  * @param variant {string} стиль кнопки : https://react-bootstrap.github.io/components/buttons/
  * @param isFocus первоначальный фокус кнопки
+ * @param isLink вид ссылки
+ * @param Icon иконка
  */
 function DialogButton(name) {
   var modeId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
   var variant = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "primary";
   var isFocus = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+  var IsLink = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
+  var Icon = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : undefined;
 
   _classCallCheck(this, DialogButton);
 
@@ -89,6 +93,8 @@ function DialogButton(name) {
   this.variant = variant;
   this.modeId = modeId;
   this.isFocus = isFocus;
+  this.IsLink = IsLink;
+  this.Icon = Icon;
 };
 
 exports.DialogButton = DialogButton;
