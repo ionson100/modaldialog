@@ -86,7 +86,7 @@ export async function DialogAlert({head, body, icon,rebaseHead,rebaseBody,rebase
  * @constructor
  */
 export async function DialogPrompt({head, body, icon, valueForPrompt,rebaseHead,rebaseBody,rebaseFooter}) {
-    const s = [[new DialogButton({name:'Close',modeId:-1,isFocus:true})],
+    const s = [new DialogButton({name:'Close',modeId:-1,isFocus:true}),
         new DialogButton({name:'Ok',modeId:1})]
     const p = {label: body, value: valueForPrompt}
     const _body = <PromptBody data={p}/>
