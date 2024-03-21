@@ -124,8 +124,11 @@ export class FormNameF extends BaseDialog {
                     </Form.Group>
                 </Row>
                 <Button variant="info" onClick={() => {
-                    DialogPrompt({head: "asasa", body: "asdassad"})
-                }}>click</Button>
+                DialogPrompt({head: "asasa", body: "asdassad"})
+            }}>click</Button>
+                <Button variant="info" onClick={() => {
+                   this.selfClose()
+                }}>selfClose</Button>
             </Form>
         );
     }

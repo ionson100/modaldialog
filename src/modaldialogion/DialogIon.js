@@ -44,7 +44,7 @@ export class WrapperModal {
     getModalAttributes(o) {
         return {
             size: o.size,
-            fullscree: o.fullscree ?? false,
+            fullscreen: o.fullscreen ?? false,
             centered: o.centered ?? false,
             animation: o.animation ?? true,
             dialogClassName: o.dialogClassName,
@@ -91,6 +91,7 @@ class DialogIon extends Component {
         console.info(this.modalAtr.rebaseBody)
 
         this.myRef = React.createRef();
+        this.myRefClose = React.createRef();
         this.buttonModeAction = undefined;// кнопка которую нажали, закрытие по кресту odeId=-1
         this.promiseInfo = {};
         this.dialogType = "none";
@@ -101,13 +102,14 @@ class DialogIon extends Component {
         this.innerSetActionClose=undefined;
         this.myRefFocus = React.createRef()
         this.oldDialog = undefined
-        this.showHead=true;
-        if(this.modalAtr.showHead===false){
-            this.showHead=false;
-        }
+
+        this.showHead = this.modalAtr.showHead !== false;
         this.rebaseHead=this.modalAtr.rebaseHead;
         this.rebaseBody=this.modalAtr.rebaseBody;
         this.rebaseFooter=this.modalAtr.rebaseFooter
+        this.selfClose=()=>{
+            this.myRefClose.current?.click()
+        }
         /* eslint-enable */
 
     }
@@ -258,7 +260,7 @@ class DialogIon extends Component {
         }
      }
     checkButtonFocus(b, i) {
-        if (b.isFocus === true) {
+
             if(b.IsLink===true){
                 return (<a href="#"  key={i} ref={this.myRefFocus} className={b.variant}  onClick={() => {
                     this.buttonModeAction = b;
@@ -268,7 +270,10 @@ class DialogIon extends Component {
                     {b.name}
                 </a>);
             }else{
-                return (<Button  key={i} ref={this.myRefFocus} variant={b.variant} onClick={() => {
+                return (<Button  key={i} ref={(el)=>{
+                    b.isFocus===true?this.myRefFocus.current=el:null;
+                    b.modeId===-1?this.myRefClose.current=el:null;
+                }} variant={b.variant} onClick={() => {
                     this.buttonModeAction = b;
                     this.onClick(this)
                 }} data-mode-id={b.modeId}>
@@ -277,25 +282,7 @@ class DialogIon extends Component {
                 </Button>);
             }
 
-        } else {
-            if(b.IsLink===true){
-                return (<a href="#"  key={i} variant={b.variant} onClick={() => {
-                    this.buttonModeAction = b;
-                    this.onClick(this)
-                }} data-mode-id={b.modeId}>
-                    {this.addIcon(b.Icon)}
-                    {b.name}
-                </a>);
-            }else{
-                return (<Button  key={i} variant={b.variant} onClick={() => {
-                    this.buttonModeAction = b;
-                    this.onClick(this)
-                }} data-mode-id={b.modeId}>
-                    {this.addIcon(b.Icon)}
-                    {b.name}
-                </Button>);
-            }
-        }
+
     }
 
     componentDidMount() {
@@ -324,7 +311,7 @@ class DialogIon extends Component {
 
             <Modal ref={this.myRef}
                    size={this.modalAtr.size} as="section"
-                   fullscreen={this.modalAtr.fullscree}
+                   fullscreen={this.modalAtr.fullscreen}
                    centered={this.modalAtr.centered}
                    animation={this.modalAtr.animation}
                    dialogClassName={this.modalAtr.dialogClassName}
