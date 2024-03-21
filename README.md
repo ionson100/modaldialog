@@ -83,11 +83,12 @@ export async function DialogModalAsync({head, body, icon, listButton = [], size,
 validate проверяет корректность виденных данных, по умолчанию `true`;
 а getData возвращает объект формы, по умочанию : `{body:"none"}`
 массив кнопок задается объектами
+
 ```javascript
 /**
  * кнопка диалога
  */
- export  class DialogButton{
+export class DialogButton {
 
     /**
      *
@@ -96,15 +97,15 @@ validate проверяет корректность виденных данны
      * @param variant {string} стиль кнопки : https://react-bootstrap.github.io/components/buttons/
      * @param isFocus первоначальный фокус кнопки
      * @param isLink  вид ссылки (bootstrap link class)
-     * @param Icon иконка
+     * @param icon иконка
      */
-    constructor(name,modeId=1,variant="primary",isFocus=false,IsLink=false,Icon=undefined) {
+    constructor(name, modeId = 1, variant = "primary", isFocus = false, isLink = false, icon = undefined) {
         this.name = name;
         this.variant = variant;
         this.modeId = modeId;
-        this.isFocus=isFocus;
-        this.IsLink = IsLink;
-        this.Icon=Icon;
+        this.isFocus = isFocus;
+        this.isLink = isLink;
+        this.icon = icon;
     }
 }
 ```
@@ -133,13 +134,15 @@ class MyResolve {
         this.formData = formData;
     }
 }
+
 ```
-установка:
+закрытие диалога из тела формы: ```закрытие диалога из тела формы```\
+#### Установка:
 ```
 npm install https://github.com/ionson100/modaldialog.git
 
 ```
-использование:
+#### Использование:
 ```
 import {DialogAlert, DialogPrompt} from "modaldialogion";
 import "modaldialogion/dist/styleDialog.css"
@@ -152,7 +155,7 @@ b.onclick=function (){
     }).then(value => {
         console.log(value)
     }).catch(reason => {
-        console.log(reason)
+        console.error(reason)
     })
 }
 ```

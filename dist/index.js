@@ -159,7 +159,11 @@ function _DialogAlert() {
         switch (_context2.prev = _context2.next) {
           case 0:
             head = _ref2.head, body = _ref2.body, icon = _ref2.icon, rebaseHead = _ref2.rebaseHead, rebaseBody = _ref2.rebaseBody, rebaseFooter = _ref2.rebaseFooter;
-            s = [new _DialogData.DialogButton("Close", -1, "primary", true)];
+            s = [new _DialogData.DialogButton({
+              name: 'Close',
+              modeId: -1,
+              isFocus: true
+            })];
             return _context2.abrupt("return", DialogModalAsync({
               head: head,
               body: body,
@@ -205,7 +209,14 @@ function _DialogPrompt() {
         switch (_context3.prev = _context3.next) {
           case 0:
             head = _ref3.head, body = _ref3.body, icon = _ref3.icon, valueForPrompt = _ref3.valueForPrompt, rebaseHead = _ref3.rebaseHead, rebaseBody = _ref3.rebaseBody, rebaseFooter = _ref3.rebaseFooter;
-            s = [new _DialogData.DialogButton("Close", -1, "primary", true), new _DialogData.DialogButton("Ok", 1, "primary")];
+            s = [[new _DialogData.DialogButton({
+              name: 'Close',
+              modeId: -1,
+              isFocus: true
+            })], new _DialogData.DialogButton({
+              name: 'Ok',
+              modeId: 1
+            })];
             p = {
               label: body,
               value: valueForPrompt
@@ -245,7 +256,14 @@ function _DialogConfirm() {
         switch (_context4.prev = _context4.next) {
           case 0:
             head = _ref4.head, body = _ref4.body, icon = _ref4.icon, rebaseHead = _ref4.rebaseHead, rebaseBody = _ref4.rebaseBody, rebaseFooter = _ref4.rebaseFooter;
-            s = [new _DialogData.DialogButton("Close", -1, "primary", true), new _DialogData.DialogButton("Ok", 1, "primary")];
+            s = [new _DialogData.DialogButton({
+              name: 'Close',
+              modeId: -1,
+              isFocus: true
+            }), new _DialogData.DialogButton({
+              name: 'Ok',
+              modeId: 1
+            })];
             return _context4.abrupt("return", DialogModalAsync({
               head: head,
               body: body,

@@ -54,14 +54,18 @@
      * @param variant {string} стиль кнопки : https://react-bootstrap.github.io/components/buttons/
      * @param isFocus первоначальный фокус кнопки
      * @param isLink вид ссылки
-     * @param Icon иконка
+     * @param icon иконка
+     * @param dataUser Данные пользователя
      */
-    constructor(name,modeId=1,variant="primary",isFocus=false,IsLink=false,Icon=undefined) {
+    constructor({name,modeId=1,variant="primary",isFocus=false,
+                    isLink: isLink = false,icon=undefined,
+                    dataUser=undefined}) {
         this.name = name;
         this.variant = variant;
         this.modeId = modeId;
         this.isFocus=isFocus;
-        this.IsLink = IsLink;
-        this.Icon=Icon;
+        this.isLink = isLink;
+        this.icon=icon;
+        this.dataUser=dataUser;
     }
 }

@@ -42,10 +42,20 @@ var BaseDialog = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, BaseDialog);
 
     _this = _super.call(this, undefined);
+    _this.form = undefined;
+    _this.form = _StorageDialog.hostDialog.currentDialog;
     setTimeout(function () {
       _StorageDialog.hostDialog.currentDialog.innerValidate = _this.validate.bind(_assertThisInitialized(_this));
       _StorageDialog.hostDialog.currentDialog.innerGetData = _this.getData.bind(_assertThisInitialized(_this));
+      _this.form = _StorageDialog.hostDialog.currentDialog;
     }, 1);
+
+    _this.selfClose = function () {
+      var _this$form;
+
+      (_this$form = _this.form) === null || _this$form === void 0 ? void 0 : _this$form.selfClose();
+    };
+
     return _this;
   }
 

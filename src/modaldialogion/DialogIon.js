@@ -87,9 +87,6 @@ class DialogIon extends Component {
         this.body= p.dialogData?._body ?? "no date";
         this.buttons= p.dialogData?._buttons ?? [];
         this.modalAtr = p.dialogData.modalAtr;// атрибуты для модального диалога
-
-        console.info(this.modalAtr.rebaseBody)
-
         this.myRef = React.createRef();
         this.myRefClose = React.createRef();
         this.buttonModeAction = undefined;// кнопка которую нажали, закрытие по кресту odeId=-1
@@ -110,8 +107,6 @@ class DialogIon extends Component {
         this.selfClose=()=>{
             this.myRefClose.current?.click()
         }
-        /* eslint-enable */
-
     }
 
     checkGlobal() {
@@ -121,11 +116,8 @@ class DialogIon extends Component {
         this.oldDialog = hostDialog.currentDialog
 
         hostDialog.currentDialog = this;
-        //console.log("old", this.oldDialog)
-       // console.log("current", hostDialog.currentDialog)
         if (!hostDialog.moduleId) {
             hostDialog.moduleId = this.moduleIdCore;
-          //  console.log("init", hostDialog.moduleId, "  ", this.moduleIdCore)
         }
     }
 
@@ -146,7 +138,6 @@ class DialogIon extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (nextState.isShow === false) {
-            // console.log(hostDialog.moduleId, "  ", this.moduleIdCore)
             if (hostDialog.moduleId === this.moduleIdCore) {
                 hostDialog.currentDialog = undefined;
                 hostDialog.moduleId = undefined;
@@ -259,25 +250,29 @@ class DialogIon extends Component {
             return(<>{icon}</>)
         }
      }
+
     checkButtonFocus(b, i) {
 
-            if(b.IsLink===true){
-                return (<a href="#"  key={i} ref={this.myRefFocus} className={b.variant}  onClick={() => {
+            if(b.isLink===true){
+                return (<a href="#"  key={i} ref={(el)=>{
+                    b.isFocus===true?this.myRefFocus.current=el:null;
+                    b.modeId===-1?this.myRefClose.current=el:null;
+                }} className={b.variant}  onClick={() => {
                     this.buttonModeAction = b;
                     this.onClick(this)
                 }} data-mode-id={b.modeId}>
-                    {this.addIcon(b.Icon)}
+                    {this.addIcon(b.icon)}
                     {b.name}
                 </a>);
             }else{
-                return (<Button  key={i} ref={(el)=>{
+                return (<Button data-user={b.dataUser?b.dataUser:''}  key={i} ref={(el)=>{
                     b.isFocus===true?this.myRefFocus.current=el:null;
                     b.modeId===-1?this.myRefClose.current=el:null;
                 }} variant={b.variant} onClick={() => {
                     this.buttonModeAction = b;
                     this.onClick(this)
                 }} data-mode-id={b.modeId}>
-                    {this.addIcon(b.Icon)}
+                    {this.addIcon(b.icon)}
                     {b.name}
                 </Button>);
             }

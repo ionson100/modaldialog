@@ -78,14 +78,23 @@ var DialogButton =
  * @param variant {string} стиль кнопки : https://react-bootstrap.github.io/components/buttons/
  * @param isFocus первоначальный фокус кнопки
  * @param isLink вид ссылки
- * @param Icon иконка
+ * @param icon иконка
+ * @param dataUser Данные пользователя
  */
-function DialogButton(name) {
-  var modeId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-  var variant = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "primary";
-  var isFocus = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-  var IsLink = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-  var Icon = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : undefined;
+function DialogButton(_ref) {
+  var name = _ref.name,
+      _ref$modeId = _ref.modeId,
+      modeId = _ref$modeId === void 0 ? 1 : _ref$modeId,
+      _ref$variant = _ref.variant,
+      variant = _ref$variant === void 0 ? "primary" : _ref$variant,
+      _ref$isFocus = _ref.isFocus,
+      isFocus = _ref$isFocus === void 0 ? false : _ref$isFocus,
+      _ref$isLink = _ref.isLink,
+      isLink = _ref$isLink === void 0 ? false : _ref$isLink,
+      _ref$icon = _ref.icon,
+      icon = _ref$icon === void 0 ? undefined : _ref$icon,
+      _ref$dataUser = _ref.dataUser,
+      dataUser = _ref$dataUser === void 0 ? undefined : _ref$dataUser;
 
   _classCallCheck(this, DialogButton);
 
@@ -93,8 +102,9 @@ function DialogButton(name) {
   this.variant = variant;
   this.modeId = modeId;
   this.isFocus = isFocus;
-  this.IsLink = IsLink;
-  this.Icon = Icon;
+  this.isLink = isLink;
+  this.icon = icon;
+  this.dataUser = dataUser;
 };
 
 exports.DialogButton = DialogButton;

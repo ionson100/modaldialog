@@ -67,7 +67,7 @@ export async function DialogModalAsync({head, body, icon, listButton = [], size,
 export async function DialogAlert({head, body, icon,rebaseHead,rebaseBody,rebaseFooter}) {
 
 
-    const s = [new DialogButton("Close", -1, "primary", true)]
+    const s = [new DialogButton({name:'Close',modeId:-1,isFocus:true})]
     return DialogModalAsync(
         {head: head, body: body, listButton: s, icon: icon,rebaseBody:rebaseBody,rebaseHead:rebaseHead,rebaseFooter:rebaseFooter})
 }
@@ -86,7 +86,8 @@ export async function DialogAlert({head, body, icon,rebaseHead,rebaseBody,rebase
  * @constructor
  */
 export async function DialogPrompt({head, body, icon, valueForPrompt,rebaseHead,rebaseBody,rebaseFooter}) {
-    const s = [new DialogButton("Close", -1, "primary", true), new DialogButton("Ok", 1, "primary")]
+    const s = [[new DialogButton({name:'Close',modeId:-1,isFocus:true})],
+        new DialogButton({name:'Ok',modeId:1})]
     const p = {label: body, value: valueForPrompt}
     const _body = <PromptBody data={p}/>
     return DialogModalAsync({head: head, body: _body, listButton: s, icon: icon,rebaseBody:rebaseBody,rebaseHead:rebaseHead,rebaseFooter:rebaseFooter})
@@ -104,6 +105,7 @@ export async function DialogPrompt({head, body, icon, valueForPrompt,rebaseHead,
  * @constructor
  */
 export async function DialogConfirm({head, body, icon,rebaseHead,rebaseBody,rebaseFooter}) {
-    const s = [new DialogButton("Close", -1, "primary", true), new DialogButton("Ok", 1, "primary")]
+    const s = [new DialogButton({name:'Close',modeId:-1,isFocus:true}),
+        new DialogButton({name:'Ok',modeId:1})]
     return DialogModalAsync({head: head, body: body, listButton: s, icon: icon,rebaseBody:rebaseBody,rebaseHead:rebaseHead,rebaseFooter:rebaseFooter})
 }

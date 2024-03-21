@@ -82,11 +82,11 @@ var WrapperModal = /*#__PURE__*/function () {
   }, {
     key: "getModalAttributes",
     value: function getModalAttributes(o) {
-      var _o$fullscree, _o$centered, _o$animation, _o$scrollable, _o$showHead;
+      var _o$fullscreen, _o$centered, _o$animation, _o$scrollable, _o$showHead;
 
       return {
         size: o.size,
-        fullscree: (_o$fullscree = o.fullscree) !== null && _o$fullscree !== void 0 ? _o$fullscree : false,
+        fullscreen: (_o$fullscreen = o.fullscreen) !== null && _o$fullscreen !== void 0 ? _o$fullscreen : false,
         centered: (_o$centered = o.centered) !== null && _o$centered !== void 0 ? _o$centered : false,
         animation: (_o$animation = o.animation) !== null && _o$animation !== void 0 ? _o$animation : true,
         dialogClassName: o.dialogClassName,
@@ -138,8 +138,8 @@ var DialogIon = /*#__PURE__*/function (_Component) {
     _this.buttons = (_p$dialogData$_button = (_p$dialogData3 = p.dialogData) === null || _p$dialogData3 === void 0 ? void 0 : _p$dialogData3._buttons) !== null && _p$dialogData$_button !== void 0 ? _p$dialogData$_button : [];
     _this.modalAtr = p.dialogData.modalAtr; // атрибуты для модального диалога
 
-    console.info(_this.modalAtr.rebaseBody);
     _this.myRef = /*#__PURE__*/_react.default.createRef();
+    _this.myRefClose = /*#__PURE__*/_react.default.createRef();
     _this.buttonModeAction = undefined; // кнопка которую нажали, закрытие по кресту odeId=-1
 
     _this.promiseInfo = {};
@@ -150,16 +150,16 @@ var DialogIon = /*#__PURE__*/function (_Component) {
     _this.innerSetActionClose = undefined;
     _this.myRefFocus = /*#__PURE__*/_react.default.createRef();
     _this.oldDialog = undefined;
-    _this.showHead = true;
-
-    if (_this.modalAtr.showHead === false) {
-      _this.showHead = false;
-    }
-
+    _this.showHead = _this.modalAtr.showHead !== false;
     _this.rebaseHead = _this.modalAtr.rebaseHead;
     _this.rebaseBody = _this.modalAtr.rebaseBody;
     _this.rebaseFooter = _this.modalAtr.rebaseFooter;
-    /* eslint-enable */
+
+    _this.selfClose = function () {
+      var _this$myRefClose$curr;
+
+      (_this$myRefClose$curr = _this.myRefClose.current) === null || _this$myRefClose$curr === void 0 ? void 0 : _this$myRefClose$curr.click();
+    };
 
     return _this;
   }
@@ -168,11 +168,10 @@ var DialogIon = /*#__PURE__*/function (_Component) {
     key: "checkGlobal",
     value: function checkGlobal() {
       this.oldDialog = _StorageDialog.hostDialog.currentDialog;
-      _StorageDialog.hostDialog.currentDialog = this; //console.log("old", this.oldDialog)
-      // console.log("current", hostDialog.currentDialog)
+      _StorageDialog.hostDialog.currentDialog = this;
 
       if (!_StorageDialog.hostDialog.moduleId) {
-        _StorageDialog.hostDialog.moduleId = this.moduleIdCore; //  console.log("init", hostDialog.moduleId, "  ", this.moduleIdCore)
+        _StorageDialog.hostDialog.moduleId = this.moduleIdCore;
       }
     }
   }, {
@@ -215,7 +214,6 @@ var DialogIon = /*#__PURE__*/function (_Component) {
     key: "shouldComponentUpdate",
     value: function shouldComponentUpdate(nextProps, nextState) {
       if (nextState.isShow === false) {
-        // console.log(hostDialog.moduleId, "  ", this.moduleIdCore)
         if (_StorageDialog.hostDialog.moduleId === this.moduleIdCore) {
           _StorageDialog.hostDialog.currentDialog = undefined;
           _StorageDialog.hostDialog.moduleId = undefined;
@@ -382,58 +380,38 @@ var DialogIon = /*#__PURE__*/function (_Component) {
     value: function checkButtonFocus(b, i) {
       var _this4 = this;
 
-      if (b.isFocus === true) {
-        if (b.IsLink === true) {
-          return /*#__PURE__*/_react.default.createElement("a", {
-            href: "#",
-            key: i,
-            ref: this.myRefFocus,
-            className: b.variant,
-            onClick: function onClick() {
-              _this4.buttonModeAction = b;
+      if (b.isLink === true) {
+        return /*#__PURE__*/_react.default.createElement("a", {
+          href: "#",
+          key: i,
+          ref: function ref(el) {
+            b.isFocus === true ? _this4.myRefFocus.current = el : null;
+            b.modeId === -1 ? _this4.myRefClose.current = el : null;
+          },
+          className: b.variant,
+          onClick: function onClick() {
+            _this4.buttonModeAction = b;
 
-              _this4.onClick(_this4);
-            },
-            "data-mode-id": b.modeId
-          }, this.addIcon(b.Icon), b.name);
-        } else {
-          return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-            key: i,
-            ref: this.myRefFocus,
-            variant: b.variant,
-            onClick: function onClick() {
-              _this4.buttonModeAction = b;
-
-              _this4.onClick(_this4);
-            },
-            "data-mode-id": b.modeId
-          }, this.addIcon(b.Icon), b.name);
-        }
+            _this4.onClick(_this4);
+          },
+          "data-mode-id": b.modeId
+        }, this.addIcon(b.icon), b.name);
       } else {
-        if (b.IsLink === true) {
-          return /*#__PURE__*/_react.default.createElement("a", {
-            href: "#",
-            key: i,
-            variant: b.variant,
-            onClick: function onClick() {
-              _this4.buttonModeAction = b;
+        return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+          "data-user": b.dataUser ? b.dataUser : '',
+          key: i,
+          ref: function ref(el) {
+            b.isFocus === true ? _this4.myRefFocus.current = el : null;
+            b.modeId === -1 ? _this4.myRefClose.current = el : null;
+          },
+          variant: b.variant,
+          onClick: function onClick() {
+            _this4.buttonModeAction = b;
 
-              _this4.onClick(_this4);
-            },
-            "data-mode-id": b.modeId
-          }, this.addIcon(b.Icon), b.name);
-        } else {
-          return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-            key: i,
-            variant: b.variant,
-            onClick: function onClick() {
-              _this4.buttonModeAction = b;
-
-              _this4.onClick(_this4);
-            },
-            "data-mode-id": b.modeId
-          }, this.addIcon(b.Icon), b.name);
-        }
+            _this4.onClick(_this4);
+          },
+          "data-mode-id": b.modeId
+        }, this.addIcon(b.icon), b.name);
       }
     }
   }, {
@@ -468,7 +446,7 @@ var DialogIon = /*#__PURE__*/function (_Component) {
         ref: this.myRef,
         size: this.modalAtr.size,
         as: "section",
-        fullscreen: this.modalAtr.fullscree,
+        fullscreen: this.modalAtr.fullscreen,
         centered: this.modalAtr.centered,
         animation: this.modalAtr.animation,
         dialogClassName: this.modalAtr.dialogClassName,

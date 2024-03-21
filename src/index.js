@@ -46,7 +46,7 @@ bt2.onclick = () => {
         span.innerHTML = JSON.stringify(value, null, 1);
     }).catch(reason => {
 
-        console.log(reason)
+        console.error(reason)
     })
 }
 
@@ -57,7 +57,7 @@ bt3.onclick = () => {
         span.innerHTML = `Нажали кнопку: ${JSON.stringify(value, null, 1)}`;
     }).catch(reason => {
 
-        console.log(reason)
+        console.error(reason)
     })
 }
 
@@ -88,7 +88,7 @@ bt6.onclick = () => {
     }).then(value => {
         span.innerHTML = JSON.stringify(value);
     }).catch(reason => {
-        console.log(reason)
+        console.error(reason)
     })
 }
 
@@ -105,7 +105,7 @@ bt6.onclick = () => {
             span.innerHTML = JSON.stringify(value, null, 1);
         }).catch(reason => {
 
-            console.log(reason)
+            console.error(reason)
         })
     }
 
@@ -122,7 +122,7 @@ bt6.onclick = () => {
             span.innerHTML = JSON.stringify(value, null, 1);
         }).catch(reason => {
 
-            console.log(reason)
+            console.error(reason)
         })
     }
 
@@ -137,7 +137,7 @@ bt6.onclick = () => {
             span.innerHTML = JSON.stringify(value, null, 1);
         }).catch(reason => {
 
-            console.log(reason)
+            console.error(reason)
         })
     }
 
@@ -154,7 +154,7 @@ bt6.onclick = () => {
             span.innerHTML = JSON.stringify(value, null, 1);
         }).catch(reason => {
 
-            console.log(reason)
+            console.error(reason)
         })
     }
 
@@ -169,7 +169,7 @@ bt6.onclick = () => {
             span.innerHTML = JSON.stringify(value, null, 1);
         }).catch(reason => {
 
-            console.log(reason)
+            console.error(reason)
         })
     }
 
@@ -193,10 +193,10 @@ function selectionDialog(head, body) {
     const s = [];
 
     // s.push(new DialogButton("select 1", 1, "primary",false,false,<FcGallery/>))
-    s.push(new DialogButton("select 2", 2, "primary",false,false,<FcGallery/>))
-    s.push(new DialogButton("select 3", 3, "primary",false,false))
-    s.push(new DialogButton("Close", -1, "outline-danger",
-        true,false,<MdCancel/>))
+    s.push(new DialogButton({name:'Select 2',modeId:2,icon:<FcGallery/>},))
+    s.push(new DialogButton({name:'select3',modeId:3,isLink:true}))
+    s.push(new DialogButton({name:'Close',modeId:-1,variant:'outline-danger',icon:<MdCancel/>,isFocus:true}));
+
     return DialogModalAsync({
         head: head,
         body: body,
@@ -210,7 +210,8 @@ function formDialog() {
 
     const p = {name: "simple route", lang: "Ru", description: "tratata"}
     const _body = <FormNameF data={p}/>
-    const s = [new DialogButton("Save", 2, "primary"),new DialogButton("Close", -1, "danger")];
+    const s = [new DialogButton({name:'Save1',modeId:2}),
+        new DialogButton({name:'Close',modeId:-1,variant:'danger',dataUser:'23-34'})];
     s.push()
     s.push()
     return DialogModalAsync({
@@ -218,7 +219,7 @@ function formDialog() {
         icon:<FcMultipleSmartphones size={40}/>,
         body: _body,
         listButton: s,
-        showHead:false
+        showHead:false,fullscreen:true,
     })
 }
 
