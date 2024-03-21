@@ -98,8 +98,9 @@ export class DialogButton {
      * @param isFocus первоначальный фокус кнопки
      * @param isLink  вид ссылки (bootstrap link class)
      * @param icon иконка
+     * @param dataUser Данные пользователя
      */
-    constructor(name, modeId = 1, variant = "primary", isFocus = false, isLink = false, icon = undefined) {
+    constructor({name, modeId = 1, variant = "primary", isFocus = false, isLink = false, icon = undefined,dataUser=undefined}) {
         this.name = name;
         this.variant = variant;
         this.modeId = modeId;

@@ -209,11 +209,11 @@ function _DialogPrompt() {
         switch (_context3.prev = _context3.next) {
           case 0:
             head = _ref3.head, body = _ref3.body, icon = _ref3.icon, valueForPrompt = _ref3.valueForPrompt, rebaseHead = _ref3.rebaseHead, rebaseBody = _ref3.rebaseBody, rebaseFooter = _ref3.rebaseFooter;
-            s = [[new _DialogData.DialogButton({
+            s = [new _DialogData.DialogButton({
               name: 'Close',
               modeId: -1,
               isFocus: true
-            })], new _DialogData.DialogButton({
+            }), new _DialogData.DialogButton({
               name: 'Ok',
               modeId: 1
             })];
