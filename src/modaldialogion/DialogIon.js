@@ -254,7 +254,7 @@ class DialogIon extends Component {
     checkButtonFocus(b, i) {
 
             if(b.isLink===true){
-                return (<a href="#"  key={i} ref={(el)=>{
+                return (<a   key={i} ref={(el)=>{
                     b.isFocus===true?this.myRefFocus.current=el:null;
                     b.modeId===-1?this.myRefClose.current=el:null;
                 }} className={b.variant}  onClick={() => {

@@ -382,7 +382,6 @@ var DialogIon = /*#__PURE__*/function (_Component) {
 
       if (b.isLink === true) {
         return /*#__PURE__*/_react.default.createElement("a", {
-          href: "#",
           key: i,
           ref: function ref(el) {
             b.isFocus === true ? _this4.myRefFocus.current = el : null;
